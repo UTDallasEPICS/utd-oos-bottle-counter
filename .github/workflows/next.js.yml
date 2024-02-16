@@ -4,6 +4,10 @@
 #
 name: Test Next.js build
 
+defaults:
+  run:
+    working-directory: ./website
+
 on:
   # Runs on pushes targeting the default branch
   push:
