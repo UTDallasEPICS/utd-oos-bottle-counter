@@ -1,7 +1,9 @@
+/*
+
 import Image from 'next/image'
 import styles from './page.module.css'
 
-/*export default function Home() {
+export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -97,7 +99,7 @@ import styles from './page.module.css'
 }
 */
 async function getData() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/todos/2')
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
  
