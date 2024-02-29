@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Water Bottle Counter</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <div style="display: grid; grid-template-rows: 100px 500px 100px; place-items: center;">
+      <div></div>
+      <div>
+        <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; ">
+
+          <div></div>
+    
+          <div class="frosted-box">
+            <p class="project-title">Live Water Bottle Counter</p>
+            <p class="global-counter js-counter">1000000</p>
+            
+            <div style="display: grid; place-items: center; row-gap: 10px;" >
+              <label for="station-select" class="dropdown-title">Select Refill Station Location:</label>
+              <select class="js-location-selector" name="stations" id="station-select" style="padding: 10px 20px; border-radius: 15px; border: none;">
+                <option value="all">All Stations</option>
+                <option value="ECSN">ECS North</option>
+                <option value="ECSS">ECS South</option>
+                <option value="ECSW">ECS West</option>
+                <option value="GR">Green Hall</option>
+                <option value="MC">McDermott Library</option>
+                <option value="SU">Student Union</option>
+              </select>
+              <button class="js-selector-button">Get Location</button>
+            </div>
+            
+            
+          </div>
+    
+          <div></div>
+    
+        </div>
+      </div>
+      <div></div>
+    </div>
+    
+
+    <script src="script.js"></script>
+
+  </body>
+</html>
