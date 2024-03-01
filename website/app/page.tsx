@@ -98,27 +98,37 @@ export default function Home() {
   
 }
 */
-async function getData() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
+
+// import { cache } from 'react'
+// import { PrismaClient } from '@prisma/client'
+
  
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
-  }
- 
-  return res.json()
-}
+// export const getItem = cache(async () => {
+//     const prisma = new PrismaClient()
+//     const item = await prisma.fountain.findUnique({
+//       where: {
+//         id: 1,
+//       },
+//     })
+//     return item.name
+//   })
+
+
+import { getItem } from './utils'
+
+//export const revalidate = 3600 // revalidate the data at most every hour
  
 export default async function Page() {
-  const data = await getData()
+  const item = await getItem()
 
   return (
-  <main>
-    <div>
-      { data.title }
-    </div>
-  </main>
-  )
+    <main>
+      <div>
+        { item }
+      </div>
+    </main>
+    )
 }
+
+
+
