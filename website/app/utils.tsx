@@ -9,7 +9,7 @@ export const getItem = cache(async () => {
         id: 1,
       },
     })
-    return item.name
+    return item.name!
   })
 
 // export async function getData() {
