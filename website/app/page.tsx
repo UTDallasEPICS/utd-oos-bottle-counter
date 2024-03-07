@@ -1,3 +1,5 @@
+/*
+
 import Image from 'next/image'
 import styles from './page.module.css'
 
@@ -92,4 +94,41 @@ export default function Home() {
       </div>
     </main>
   )
+
+  
 }
+*/
+
+// import { cache } from 'react'
+// import { PrismaClient } from '@prisma/client'
+
+ 
+// export const getItem = cache(async () => {
+//     const prisma = new PrismaClient()
+//     const item = await prisma.fountain.findUnique({
+//       where: {
+//         id: 1,
+//       },
+//     })
+//     return item.name
+//   })
+
+
+import { getItem } from './utils'
+
+//export const revalidate = 3600 // revalidate the data at most every hour
+ 
+export default async function Page() {
+  const item = await getItem()
+
+  return (
+    <main>
+      <div>
+        { item }
+      </div>
+    </main>
+    )
+}
+
+
+
