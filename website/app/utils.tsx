@@ -1,19 +1,25 @@
 import { cache } from 'react'
 import { PrismaClient } from '@prisma/client'
 
- 
-export const getItem = cache(async () => {
-    const prisma = new PrismaClient()
-    const item = await prisma.fountain.findUnique({
-      where: {
-        id: 1,
-      },
-    })
-    return item!.name
-  })
 
-// export async function getData() {
-//     const prisma = new PrismaClient()
-//     const fountain = await prisma.fountain.
-//     return fountain.json()
-//   }
+//Next.js bug with prisma requires this online solution with a global prisma instance for dev build,
+//My code starts on line 21
+const prismaClientSingleton = () => {
+  return new PrismaClient()
+}
+
+declare global {
+  var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
+}
+
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
+
+export default prisma
+
+if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
+
+export const getItem = cache(async () => {
+    const item:any = await prisma.$queryRaw`SELECT SUM(BottleNum) FROM fountain` //Returns an array containing one array containing the number :| 
+    const bottleCount = Number(item[0]['SUM(BottleNum)'])    
+    return bottleCount
+  })
