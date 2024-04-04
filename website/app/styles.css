@@ -1,28 +1,11 @@
 p {
   font-family: Arial;
-  text-align: center;
+  /*text-align: center;*/
+  color: white;
 }
 
 body {
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
-}
-
-button {
-  border: none;
-  padding: 10px 10px;
-  background-color: aquamarine;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: orange;
-}
-
-.frosted-box {
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 50px;
-  padding: 50px 30px;
+  background: rgb(120, 115, 215);
 }
 
 .project-title {
@@ -33,51 +16,25 @@ button:hover {
   margin-bottom: 0px;
 }
 
-.current-location {
-  /*color: rgb(0, 130, 220);*/
-  color: aquamarine;
+.fountain {
+  background-color: rgba(255,255,255, 0.7);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin: 5px 5px;
+  height: 100px;
+  width: 200px;
+  display: inline-block;
+}
+
+.fountainName,
+.fountainCount {
+  color: black;
   font-size: 20px;
-  margin-top: 0px;
-  margin-bottom: 0px;
 }
 
-.global-counter {
-  color: rgb(0, 0, 0); /*70,70,70*/
-  font-size: 30px;
-  margin: 0px 0px;
-}
-
-.dropdown-middle-placement {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 10px 10px;
-}
-
-.dropdown-title {
-  margin-top: 50px;
-
-  color:rgb(255, 255, 255);
-  font-family: Arial;
-  font-size: 20px;
+.fountainName {
   font-weight: bold;
 }
 
-.dropdown-menu {
-  font-size: 20px;
-  padding: 5px 10px;
-}
 
-.dropdown-grid {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  background-color: rgba(255, 255, 255, 0.6);
-  place-items: center;
-  border-radius: 20px;
-  padding: 20px 10px;
-}
-
-.dropdown-grid2 {
-  display: grid;
-  grid-template-columns: 220px 100px;
-  column-gap: 10px;
-}
