@@ -1,6 +1,5 @@
 import './styles.css'
-import Title from './components/title';
-import LocationInterface from './components/location';
+import TopBar from './components/top-bar';
 import Fountain from './components/fountain';
 import TotalCounter from './components/total-counter';
 import { getItem } from './prismaFountains'
@@ -24,8 +23,8 @@ export default async function Page() {
   fountainArray.forEach( (fountain:any) => { totalCounter += fountain.bottleNum });
 
   return(<>
-    <Title/>
-    {fountainArray.map( (fountain:any, index:Number) => (<Fountain key={index} name={fountain.name} count={fountain.bottleNum}/>) )}
+    <TopBar/>
     <TotalCounter counter={totalCounter}/>
+    {fountainArray.map( (fountain:any, index:Number) => (<Fountain key={index} name={fountain.name} count={fountain.bottleNum}/>) )}
   </>)
 }
