@@ -1,11 +1,10 @@
 import './styles.css'
-import Title from './components/title';
-import LocationInterface from './components/location';
-import Fountain from './components/fountain';
+import TopBar from './components/top-bar';
 import TotalCounter from './components/total-counter';
 import { getItem } from './prismaFountains'
 
 import { PrismaClient } from '@prisma/client';
+import SearchBar from './components/search-fountains';
 
 const prisma = new PrismaClient();
 
@@ -24,8 +23,9 @@ export default async function Page() {
   fountainArray.forEach( (fountain:any) => { totalCounter += fountain.bottleNum });
 
   return(<>
-    <Title/>
-    {fountainArray.map( (fountain:any, index:Number) => (<Fountain key={index} name={fountain.name} count={fountain.bottleNum}/>) )}
+    <TopBar/>
     <TotalCounter counter={totalCounter}/>
+    <SearchBar fountainArray={fountainArray}/>
+    
   </>)
 }
