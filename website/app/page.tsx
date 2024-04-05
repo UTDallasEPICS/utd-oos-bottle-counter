@@ -5,6 +5,7 @@ import TotalCounter from './components/total-counter';
 import { getItem } from './prismaFountains'
 
 import { PrismaClient } from '@prisma/client';
+import SearchBar from './components/search-fountains';
 
 const prisma = new PrismaClient();
 
@@ -25,6 +26,7 @@ export default async function Page() {
   return(<>
     <TopBar/>
     <TotalCounter counter={totalCounter}/>
-    {fountainArray.map( (fountain:any, index:Number) => (<Fountain key={index} name={fountain.name} count={fountain.bottleNum}/>) )}
+    <SearchBar fountainArray={fountainArray}/>
+    
   </>)
 }
