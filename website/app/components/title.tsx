@@ -1,7 +1,9 @@
 //COMPONENT: Contains website title
 export default function Title() {
   return (<>
-    <p className="project-title">UTD Office of Sustainability</p>
-    <p>Water Bottle Counter</p>
+  <div>
+    <p className="project-partner">UTD Office of Sustainability</p>
+    <p className="project-title">Water Bottle Counter</p>
+  </div>
   </>);
 }
