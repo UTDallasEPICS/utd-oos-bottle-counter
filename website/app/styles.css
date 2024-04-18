@@ -5,8 +5,8 @@ p {
 }
 
 body {
-  background: rgb(120, 115, 215);
-  /*background-color: rgb(200, 200, 200);*/
+  /*background: rgb(120, 115, 215);*/
+  background-color: rgb(72, 0, 255);
 }
 
 .top-bar {
@@ -14,15 +14,27 @@ body {
   grid-template-columns: 2fr 1fr;
   column-gap: 50px;
   margin: 5px;
+  margin-bottom: 0px;
   background-color: black;
   place-items: center;
   border: none;
-  border-radius: 5px;
+  /*border-radius: 5px;*/
   padding: 10px
 }
 
+.nav-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 5px;
+  margin-top: 0px;
+  background-color: black;
+  place-items: center;
+  border: none;
+  /*border-radius: 5px;*/
+}
+
 .project-title {
-  font-size: 4vw;
+  font-size: 3vw;
   color: rgb(255, 255, 255);
   font-weight: bold;
   margin-top: 0px;

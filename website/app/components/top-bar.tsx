@@ -1,11 +1,10 @@
-import Title from './title';
-import SearchBar from './search-fountains';
-
 export default function TopBar() {
   return (<>
   <div className="top-bar">
-    <Title/>
-    
+    <div>
+      <p className="project-partner">UTD Office of Sustainability</p>
+      <p className="project-title">Water Bottle Counter</p>
+    </div>
   </div>
   </>);
 }
