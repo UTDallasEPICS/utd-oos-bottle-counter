@@ -1,5 +1,6 @@
 p {
 
+
   /*text-align: center;*/
   color: white;
 }
@@ -43,7 +44,27 @@ body {
 
 .project-partner {
   margin-top: 0px;
+  margin-top: 0px;
   margin-bottom: 0px;
+}
+
+.project-partner {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.search-bar {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  max-height: 44.5px;
+}
+
+ul {
+  padding: 0px 20px;
 }
 
 .search-bar {
@@ -70,12 +91,18 @@ ul {
   width: 205px;*/
   display: block;
   list-style: none;
+  margin: 10px 0px;
+  /*height: 100px;
+  width: 205px;*/
+  display: block;
+  list-style: none;
 }
 
 .fountainName,
 .fountainCount {
   color: black;
   font-size: 20px;
+  margin: 0px;
   margin: 0px;
 }
 
