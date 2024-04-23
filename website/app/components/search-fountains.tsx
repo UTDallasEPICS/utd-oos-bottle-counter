@@ -8,7 +8,7 @@ export default function SearchBar(props:any) {
   <input type="text" id="myInput" placeholder="Search for Fountain..." className="search-bar" onKeyUp={searchFeature}/>
 
   <ul id="myUL">
-    {props.fountainArray.map( (fountain:any, index:Number) => (<li className="fountain"><h4 className="fountainID">{fountain.id}</h4><a className="fountainName">{fountain.name}</a> <div>{fountain.bottleNum}</div></li>) )}
+    {props.fountainArray.map( (fountain:any, index:Number) => (<li className="fountain"><p className="fountainID">{fountain.id}</p><a className="fountainName">{fountain.name}</a> <div>{fountain.bottleNum}</div></li>) )}
   </ul>
 
   </>);
