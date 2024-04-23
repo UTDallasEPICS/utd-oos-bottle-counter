@@ -1,8 +1,9 @@
 'use client';
+import { useNavigate } from "react-router-dom";
 import { FormEvent } from 'react'
 
-export default function CreateFountain() {
 
+export default function CreateFountain() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
  
@@ -23,7 +24,7 @@ export default function CreateFountain() {
     // Handle response if necessary
     const data = await res.json()
     // ...
-  }
+    window.location.href = '/'  }
 
   return (<>
     <form onSubmit={onSubmit}>
