@@ -1,6 +1,4 @@
 p {
-
-
   /*text-align: center;*/
   color: white;
 }
@@ -8,6 +6,15 @@ p {
 body {
   /*background: rgb(120, 115, 215);*/
   background-color: rgb(72, 0, 255);
+}
+
+label {
+  color: white;
+  display: block;
+}
+
+legend {
+  color: white;
 }
 
 .top-bar {
