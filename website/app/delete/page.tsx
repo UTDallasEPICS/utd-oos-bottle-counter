@@ -20,6 +20,7 @@ export default function DeleteFountain() {
     // Handle response if necessary
     const data = await res.json()
     // ...
+    window.location.href = '/'
   }
 
   return (<>
