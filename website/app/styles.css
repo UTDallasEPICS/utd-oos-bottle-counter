@@ -106,7 +106,8 @@ ul {
 }
 
 .fountainName,
-.fountainCount {
+.fountainCount,
+.fountainID {
   color: black;
   font-size: 20px;
   margin: 0px;
