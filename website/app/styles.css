@@ -117,6 +117,7 @@ ul {
 .fountainName {
   font-weight: bold;
   word-wrap: break-word;
+  display: inline;
 }
 
 .total-counter {
