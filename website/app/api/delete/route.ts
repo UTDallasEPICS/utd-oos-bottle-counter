@@ -3,12 +3,19 @@ import prisma from '@/app/prismaFountains';
 
 export async function POST(request:any) {
   const { fountain } = await request.json();
-  const res = await prisma.fountain.delete({
-    where: {
-      id: fountain.id,
-    },
-  });
+  let res;
+  try 
+  {
+    res = await prisma.fountain.delete({
+      where: {
+        id: fountain.id,
+      },
+    });
+  } catch {
+    res = "ID_NOT_FOUND_ERROR";
+  }
+  
 
-  console.log(res)
+  console.log("Response: " + res);
   return NextResponse.json({ res });
 }

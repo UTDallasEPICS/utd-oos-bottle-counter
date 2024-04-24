@@ -23,8 +23,10 @@ export default function CreateFountain() {
 
     // Handle response if necessary
     const data = await res.json()
-    // ...
-    window.location.href = '/'  }
+    console.log("Data: " + data);
+
+    window.location.href = '/'
+  }
 
   return (<>
   <div className="create-container">
@@ -34,17 +36,17 @@ export default function CreateFountain() {
         <legend className="create-legend">Add New Fountain</legend>
 
         <label htmlFor="fname" className="create-label">
-        Type the location name of the new fountain here <div className="second-line-block">(if there are multiple, type a #number following the name)</div>
+        Type the location name of the new fountain here <div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
         </label>
         <input id="fname" type="text" placeholder="Fountain Name"
-        className="create-input"/>
+        className="create-input" required/>
 
         <label htmlFor="fcounter" className="create-label">
         Type the number of water bottles saved (zero if unused)
         </label>
-        <input id="fcounter" type="text" placeholder="Initial Counter"
-        className="create-input"/>
-        <button type="submit" className="create-submit-btn">Submit</button>
+        <input id="fcounter" type="number" min="0" placeholder="Initial Counter"
+        className="create-input" required/>
+        <button type="submit" className="create-submit-btn">Create</button>
       </form>
     </div>
     <div></div>

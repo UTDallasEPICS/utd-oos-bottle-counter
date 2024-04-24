@@ -19,9 +19,18 @@ export default function DeleteFountain() {
     });
 
     // Handle response if necessary
-    const data = await res.json()
-    // ...
-    window.location.href = '/'
+    const data = await res.json();
+    //console.log({ data });
+    
+    if(data.res !== "ID_NOT_FOUND_ERROR") {
+      //console.log('success delete path');
+      alert('Success: ID found, fountain deleted');
+      window.location.href = '/'
+    }  
+    else {
+      //console.log('There was an error...');
+      alert('Error: This ID does not exist in database...');
+    }
   }
 
   return (<>
@@ -32,9 +41,9 @@ export default function DeleteFountain() {
         <legend className="delete-legend">Remove Fountain</legend>
 
         <label htmlFor="id" className="delete-label"> Please type ID of fountain you want to delete </label>
-        <input id="id" type="text" placeholder='ID: e.g. "10"' className="delete-input"/>
+        <input id="id" type="number" min="1" placeholder='ID: e.g. "10"' className="delete-input"  required/>
 
-        <button type="submit" className="delete-submit-btn">Submit</button>
+        <button type="submit" className="delete-submit-btn">Delete</button>
       </form>
     </div>
     <div></div>
