@@ -1,5 +1,6 @@
 'use client';
 import { FormEvent } from 'react';
+import './delete-styles.css';
 
 export default function DeleteFountain() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -24,13 +25,19 @@ export default function DeleteFountain() {
   }
 
   return (<>
-    <form onSubmit={onSubmit}>
-      <legend>Remove Fountain</legend>
+  <div className='delete-container'>
+    <div></div>
+    <div>
+      <form onSubmit={onSubmit} className="delete-form">
+        <legend className="delete-legend">Remove Fountain</legend>
 
-      <label htmlFor="id"> Please type ID of fountain you want to delete </label>
-      <input id="id" type="text" placeholder='ID: e.g. "10"'/>
+        <label htmlFor="id" className="delete-label"> Please type ID of fountain you want to delete </label>
+        <input id="id" type="text" placeholder='ID: e.g. "10"' className="delete-input"/>
 
-      <button type="submit">Submit</button>
-    </form>
+        <button type="submit" className="delete-submit-btn">Submit</button>
+      </form>
+    </div>
+    <div></div>
+  </div>
   </>);;
 }
