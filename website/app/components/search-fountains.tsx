@@ -1,16 +1,18 @@
 'use client';
 
 export default function SearchBar(props:any) {
-  console.log(props.fountainArray)
+  //console.log(props.fountainArray)
   return (<>
   <input type="text" id="myInput" placeholder="Search for Fountain..." className="search-bar" onKeyUp={searchFeature}/>
 
   <ul id="myUL">
     {props.fountainArray.map( (fountain:any, index:Number) => (
-    <li className="fountain">
-        <div className="fountainID">ID #{fountain.id}, <div className="fountainName">{fountain.name}</div> </div>
+    <li className="fountain" key={fountain.id}>
+      <div className="fountainID">
+        ID #{fountain.id}, <div className="fountainName">{fountain.name}</div> 
+      </div>
       <div>{fountain.bottleNum}</div>
-      </li>) )}
+    </li>) )}
   </ul>
 
   </>);
