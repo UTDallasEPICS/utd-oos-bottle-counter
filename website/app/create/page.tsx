@@ -1,7 +1,7 @@
 'use client';
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from 'react'
-
+import './create-styles.css';
 
 export default function CreateFountain() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -27,19 +27,28 @@ export default function CreateFountain() {
     window.location.href = '/'  }
 
   return (<>
-    <form onSubmit={onSubmit}>
-      <legend>Add New Fountain</legend>
+  <div className="create-container">
+    <div></div>
+    <div>
+      <form onSubmit={onSubmit} className="create-form">
+        <legend className="create-legend">Add New Fountain</legend>
 
-      <label htmlFor="fname">
-      Type the location name of the new fountain here (if there are multiple, type a #number following the name)
-      </label>
-      <input id="fname" type="text" placeholder="Fountain Name"/>
+        <label htmlFor="fname" className="create-label">
+        Type the location name of the new fountain here <div className="second-line-block">(if there are multiple, type a #number following the name)</div>
+        </label>
+        <input id="fname" type="text" placeholder="Fountain Name"
+        className="create-input"/>
 
-      <label htmlFor="fcounter">
-      Type the number of water bottles saved (zero if unused)
-      </label>
-      <input id="fcounter" type="text" placeholder="Initial Counter"/>
-      <button type="submit">Submit</button>
-    </form>
+        <label htmlFor="fcounter" className="create-label">
+        Type the number of water bottles saved (zero if unused)
+        </label>
+        <input id="fcounter" type="text" placeholder="Initial Counter"
+        className="create-input"/>
+        <button type="submit" className="create-submit-btn">Submit</button>
+      </form>
+    </div>
+    <div></div>
+  </div>
+    
   </>);
 }
