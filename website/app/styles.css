@@ -133,3 +133,11 @@ ul {
   padding: 1px 0px;
 
 }
+
+.empty-database {
+  background-color: rgb(253, 100, 100);
+  color: black;
+  padding: 10px;
+  text-align: center;
+  margin: 10px;
+}

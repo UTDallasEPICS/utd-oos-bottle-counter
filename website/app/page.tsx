@@ -13,9 +13,14 @@ export default async function Page() {
   let totalCounter = 0;
   fountainArray.forEach( (fountain:any) => { totalCounter += fountain.bottleNum });
 
-  return(<>
-    <TotalCounter counter={totalCounter}/>
-    <SearchBar fountainArray={fountainArray}/>
-    
-  </>)
+  if(fountainArray.length !== 0) {
+    return(<>
+      <TotalCounter counter={totalCounter}/>
+      <SearchBar fountainArray={fountainArray}/>
+    </>);
+  }
+  else {
+    return <div className="empty-database"> No fountain data found. Start by clicking "Create" in the navigation bar above.</div>;
+  }
+  
 }

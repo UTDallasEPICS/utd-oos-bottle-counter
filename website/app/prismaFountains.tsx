@@ -17,8 +17,8 @@ export default prisma
 if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
 
 export const getItem = cache(async () => {
-    const fountains:any = await prisma.fountain.findMany();
-    let fountainString = JSON.stringify(fountains);
-   
-    return fountainString
-  })
+  const fountains:any = await prisma.fountain.findMany();
+  let fountainString = JSON.stringify(fountains);
+
+  return fountainString
+})
