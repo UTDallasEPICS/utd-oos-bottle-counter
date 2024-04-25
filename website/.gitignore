@@ -27,6 +27,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+/dev.db
 
 # vercel
 .vercel
@@ -37,5 +38,3 @@ next-env.d.ts
 
 # Postgres database
 postgres-data
-
-/prisma/dev.db
