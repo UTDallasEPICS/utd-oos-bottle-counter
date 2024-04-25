@@ -1,7 +1,5 @@
 'use client';
 
-import Fountain from "./fountain";
-
 export default function SearchBar(props:any) {
   console.log(props.fountainArray)
   return (<>
