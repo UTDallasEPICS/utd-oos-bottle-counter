@@ -1,6 +1,3 @@
 # MacOS Artifact File
 
 .DS_Store
-
-#database file
-dev.db
