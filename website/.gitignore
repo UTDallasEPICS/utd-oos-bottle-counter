@@ -38,4 +38,5 @@ next-env.d.ts
 # Postgres database
 postgres-data
 
+# Prisma data
 /prisma/dev.db
