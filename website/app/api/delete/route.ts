@@ -19,12 +19,4 @@ export async function POST(request:any) {
   console.log("Response: " + res);
   return NextResponse.json({ res });
 }
-  catch {
-    const map1 = new Map();
-
-map1.set('Error', "That ID doesn't exist!");  
-return NextResponse.json({ map1 });
-
-}
-  }
 
