@@ -1,7 +1,7 @@
 'use client';
-import { useNavigate } from "react-router-dom";
 import { FormEvent } from 'react'
 import './create-styles.css';
+import prisma from '@/app/prismaFountains';
 
 export default function CreateFountain() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -23,13 +23,19 @@ export default function CreateFountain() {
 
     // Handle response if necessary
     const data = await res.json()
-    console.log("Data: " + data);
+    console.log("This works")
+    console.log("Data: " +  data.stringify());
 
-    window.location.href = '/'
+  alert("Fountain Created!"/*\nID: */);
   }
+  async function returnfunct() {
+    window.location.href = '/';
+  }
+  
 
   return (<>
   <div className="create-container">
+    <dialog id="success">Fountain created successfully!</dialog>
     <div></div>
     <div>
       <form onSubmit={onSubmit} className="create-form">
@@ -46,11 +52,18 @@ export default function CreateFountain() {
         </label>
         <input id="fcounter" type="number" min="0" placeholder="Initial Counter"
         className="create-input" required/>
+
+        <div className="buttonbox">
         <button type="submit" className="create-submit-btn">Create</button>
+        <button onClick={returnfunct} type="button" className="create-submit-btn" id="returnbutton">Return</button>
+        </div>
       </form>
     </div>
     <div></div>
+    <div></div>
+
   </div>
+  
     
   </>);
 }

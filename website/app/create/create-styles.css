@@ -64,3 +64,7 @@
   background-color: rgb(33, 153, 113);
   border-color: rgb(33, 153, 113);
 }
+.buttonbox {
+  display : grid;
+  grid-template-columns: 1fr 1fr;
+}
