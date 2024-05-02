@@ -28,7 +28,7 @@ void loop() {
   // If the button is pressed, read the state of each dip switch and update the current switch value
   if (buttonPressed) {
     for (int i = 0; i < 8; i++) {
-      if (digitalRead(dipSwitchPins[i]) == LOW) { // Check if switch is on (LOW)
+      if (digitalRead(dipSwitchPins[i]) == HIGH) { // Check if switch is on (LOW)
         currentSwitchValue |= (1 << i); // Set the corresponding bit to 1
       }
     }
