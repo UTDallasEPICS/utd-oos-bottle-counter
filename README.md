@@ -9,8 +9,8 @@ The Water Bottle Counter works to retrieve data from arduinos retrofitted into w
 Use the package manager [npm](https://www.npmjs.com/) to install required dependencies.
 
 ```bash
-npm install react
-npm install prisma
+cd website
+npm i
 ```
 
 ## Usage
