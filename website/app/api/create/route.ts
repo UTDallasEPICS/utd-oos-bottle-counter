@@ -10,6 +10,6 @@ export async function POST(request:any) {
     },
   });
 
-  console.log(res)
+  // console.log(res)
   return NextResponse.json({ res });
 }
