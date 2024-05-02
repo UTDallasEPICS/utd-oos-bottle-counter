@@ -48,7 +48,7 @@ export default function RenameFountain() {
     <div></div>
     <div>
       <form onSubmit={onSubmit} className="create-form">
-        <legend className="create-legend">Add New Fountain</legend>
+        <legend className="create-legend">Rename Fountain</legend>
 
         <label htmlFor="fname" className="create-label">
         Type the ID of The Fountain you want to rename<div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
