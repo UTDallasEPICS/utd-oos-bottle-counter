@@ -21,11 +21,27 @@ export default function CreateFountain() {
       body: JSON.stringify({fountain: fountain}),
     });
 
-    // Handle response if necessary
+    // Handling turning the ID of the newly created fountain
+    //into binary for input on the dipswitch for its respective device
     const data = await res.json()
     const displayNum = data.res.id
-    
-    
+    let binary = displayNum.toString(2)
+    while(binary.length < 8) {
+      binary = "0" + binary;
+    }
+    let returnString = "";
+    for (let i = 0; i < binary.length; i++) {
+      if (binary.charAt(i) === '1') {
+        returnString = returnString + "On "
+      }
+      else {
+        returnString = returnString + "Off "
+      }
+
+    }
+    console.log(returnString)
+    document.getElementById('DipswitchVals').innerHTML = returnString
+
 
   alert("Fountain Created!"/*\nID: */);
   }
@@ -62,6 +78,10 @@ export default function CreateFountain() {
     </div>
     <div></div>
     <div></div>
+    <div><p>Format For Device Dipswitch 1 to 8, Left to Right:</p>
+    <p id='DipswitchVals'></p>
+    
+    </div>
 
   </div>
   
