@@ -23,8 +23,9 @@ export default function CreateFountain() {
 
     // Handle response if necessary
     const data = await res.json()
-    console.log("This works")
-    console.log("Data: " +  data.stringify());
+    const displayNum = data.res.id
+    
+    
 
   alert("Fountain Created!"/*\nID: */);
   }
