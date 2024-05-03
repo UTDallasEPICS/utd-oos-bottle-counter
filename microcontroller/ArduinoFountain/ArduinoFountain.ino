@@ -16,12 +16,19 @@
 
 WiFiMulti wifiMulti;
 
-//Bottle Banisher's Button/Sensor Test
+//Bottle Banisher's Button/Sensor Variables
 const int buttonPin = 4;
 int old_state = 0;
 int new_state = 0;
 unsigned long start_time;
 unsigned long duration = 0;
+
+//Bottle Banisher's DipSwitchID Variables
+const int dipSwitchPins[] = {12, 11, 10, 9, 8, 7, 6, 5};
+String URL = "http://192.168.0.1:3000/api/arduino/increment/";
+String URL_ID;
+String FULL_URL;
+
 /*
 const char* ca = \ 
 "-----BEGIN CERTIFICATE-----\n" \  
@@ -68,12 +75,28 @@ void setup() {
 
     wifiMulti.addAP("bottlebanish", "banishthem"); //SSID, PASSWORD
 
-    //Bottle Banisher's Button/Sensor Test
+    //Bottle Banisher's Button/Sensor Code
     pinMode(buttonPin, INPUT);
+
+    //Bottle Banisher's DipSwitchID Code
+    for (int i = 0; i < 8; i++) {
+      pinMode(dipSwitchPins[i], INPUT_PULLUP); // Enable internal pull-up resistors
+    }
+
+    int currentSwitchValue = 0;
+
+    for (int i = 0; i < 8; i++) {
+      if (digitalRead(dipSwitchPins[i]) == HIGH) { // Check if switch is on (LOW)
+        currentSwitchValue |= (1 << i); // Set the corresponding bit to 1
+      }
+    }
+
+    URL_ID = String(currentSwitchValue);
+    FULL_URL = URL.concat(URL_ID); //appending the ID from DIP_SWITCH to URL
 }
 
 void loop() {
-  //Bottle Banisher's Button/Sensor Test
+  //Bottle Banisher's Button/Sensor Code
   new_state = digitalRead(buttonPin);
   if( (old_state == 0) && (new_state == 1) ) {
     start_time = millis();
@@ -116,7 +139,7 @@ void increment1() {
         HTTPClient http;
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
-        http.begin("http://192.168.0.1:3000/api/arduino/increment/8"); //HTTP
+        http.begin(FULL_URL); //HTTP Bottle Banisher's URL
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header
         int httpCode = http.GET();
