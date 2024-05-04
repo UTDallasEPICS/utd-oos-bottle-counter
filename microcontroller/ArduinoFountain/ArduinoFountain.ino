@@ -91,8 +91,11 @@ void setup() {
       }
     }
 
+    Serial.println(currentSwitchValue);
     URL_ID = String(currentSwitchValue);
-    FULL_URL = URL.concat(URL_ID); //appending the ID from DIP_SWITCH to URL
+    Serial.println(URL_ID);
+    URL.concat(URL_ID); //appending the ID from DIP_SWITCH to URL
+    Serial.println(URL);
 }
 
 void loop() {
@@ -114,13 +117,13 @@ void loop() {
   }
   if(duration >= 10000) {
     Serial.println("Branch 3");
-    increment();
+    increment1(); //increment
     duration -= 10000;
     Serial.print("Remaining duration: ");
     Serial.println(duration);
   }
   if( (new_state == 1) && (millis() - start_time >= 10000) ) {
-    increment();
+    increment1();
     start_time = millis();
     Serial.println("Branch 4");
     Serial.print("Start-Time: ");
@@ -139,7 +142,7 @@ void increment1() {
         HTTPClient http;
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
-        http.begin(FULL_URL); //HTTP Bottle Banisher's URL
+        http.begin(URL); //HTTP Bottle Banisher's URL
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header
         int httpCode = http.GET();
