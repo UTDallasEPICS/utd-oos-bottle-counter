@@ -36,6 +36,9 @@ This is a fullstack application built in the Next.js framework.
 The database is a simple SQLite schema, connected to our application via a prisma connection
 We used postman to test the application's API routes that affect the database, including the increment API used by the arduinos
 
+## Deployment
+Not deployed yet, but will eventually be hosted on Office of Sustainability site, maybe the EPICS server.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
