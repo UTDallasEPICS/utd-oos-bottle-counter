@@ -29,12 +29,12 @@ Navigate to the resulting website, usually at [http://localhost:3000](http://loc
 - Create new fountains in the database, starting at 0 or user defined number
 - Creating new fountains returns the required dipswitch setting for that fountain's device
 - Delete fountains from database
-- Rename fountains
+- Rename the fountains' via the web interface fountains
 
 ## Website Tech Stack
 This is a fullstack application built in the Next.js framework.
-The database is a simple SQLite schema, connected to our application via a prisma connection
-We used postman to test the application's API routes that affect the database, including the increment API used by the arduinos
+The database is a simple SQLite schema, connected to our application via a prisma connection.
+We used postman to test the application's API routes that affect the database, including the increment API used by the arduinos.
 
 ## Deployment
 Not deployed yet, but will eventually be hosted on Office of Sustainability site, maybe the EPICS server.
