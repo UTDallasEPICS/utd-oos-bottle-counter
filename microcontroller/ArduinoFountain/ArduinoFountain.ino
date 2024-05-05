@@ -17,7 +17,7 @@
 WiFiMulti wifiMulti;
 
 //Bottle Banisher's Button/Sensor Variables
-const int buttonPin = 4;
+const int fountainPin = 13; //other side of Arduino nano
 int old_state = 0;
 int new_state = 0;
 unsigned long start_time;
@@ -27,7 +27,6 @@ unsigned long duration = 0;
 const int dipSwitchPins[] = {12, 11, 10, 9, 8, 7, 6, 5};
 String URL = "http://192.168.0.1:3000/api/arduino/increment/";
 String URL_ID;
-String FULL_URL;
 
 /*
 const char* ca = \ 
@@ -76,7 +75,7 @@ void setup() {
     wifiMulti.addAP("bottlebanish", "banishthem"); //SSID, PASSWORD
 
     //Bottle Banisher's Button/Sensor Code
-    pinMode(buttonPin, INPUT);
+    pinMode(fountainPin, INPUT);
 
     //Bottle Banisher's DipSwitchID Code
     for (int i = 0; i < 8; i++) {
@@ -100,7 +99,9 @@ void setup() {
 
 void loop() {
   //Bottle Banisher's Button/Sensor Code
-  new_state = digitalRead(buttonPin);
+  new_state = digitalRead(fountainPin);
+  //Serial.println(new_state); //use this to see Relay input state
+  //delay(1000); //use this to see Relay input state
   if( (old_state == 0) && (new_state == 1) ) {
     start_time = millis();
     old_state = 1;
