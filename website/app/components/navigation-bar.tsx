@@ -1,3 +1,7 @@
+/*
+This component contains code for the navigation bar at the top of webpage.
+It uses Next.js Link feature for navigation/routing.
+*/
 import Link from 'next/link';
 
 export default function NavBar() {
