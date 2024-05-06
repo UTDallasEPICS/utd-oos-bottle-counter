@@ -16,7 +16,7 @@ export default function CreateFountain() {
       bottleNum: parseInt( (event.currentTarget.elements[1] as HTMLInputElement).value ),
     });
     
-    const res = await fetch('/api/create', {
+    const res = await fetch('/api/webapp/create', {
       method: 'POST',
       body: JSON.stringify({fountain: fountain}),
     });

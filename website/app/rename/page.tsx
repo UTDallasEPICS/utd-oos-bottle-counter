@@ -16,7 +16,7 @@ export default function RenameFountain() {
       name: (event.currentTarget.elements[1] as HTMLInputElement).value,
     });
     
-    const res = await fetch('/api/rename', {
+    const res = await fetch('/api/webapp/rename', {
       method: 'POST',
       body: JSON.stringify({fountain: fountain}),
     });

@@ -13,7 +13,7 @@ export default function DeleteFountain() {
       id: parseInt( (event.currentTarget.elements[0] as HTMLInputElement).value ),
     });
     
-    const res = await fetch('/api/delete', {
+    const res = await fetch('/api/webapp/delete', {
       method: 'POST',
       body: JSON.stringify({fountain: fountain}),
     });
