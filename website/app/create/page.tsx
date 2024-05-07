@@ -42,10 +42,10 @@ export default function CreateFountain() {
     let returnString = "";
     for (let i = 0; i < binary.length; i++) {
       if (binary.charAt(i) === '1') {
-        returnString = returnString + "On "
+        returnString = "On " + returnString
       }
       else {
-        returnString = returnString + "Off "
+        returnString = "Off " +  returnString
       }
 
     }
