@@ -1,6 +1,9 @@
 'use client';
 import './download-styles.css';
 
+/*This page allows users to download the Arduino Nano ESP32 code, retrieves code from public folder.
+This code does not use an API.*/
+
 export default function DownloadPage() {
     return (
         <div className="download-container-center">
@@ -11,8 +14,8 @@ export default function DownloadPage() {
                 
                 <div className='download-button-center'>
                     <a 
-                    href="arduino.ino"
-                    download="arduino.ino"
+                    href="ArduinoFountain.ino"
+                    download="ArduinoFountain.ino"
                     className='download-button'
                     >
                     Get File

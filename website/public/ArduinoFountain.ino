@@ -80,14 +80,8 @@ void setup() {
     //Bottle Banisher's DipSwitchID Code
     for (int i = 0; i < 8; i++) {
       pinMode(dipSwitchPins[i], INPUT_PULLUP); // Enable internal pull-up resistors
-      Serial.print("Dip Switch Pin #");
-      Serial.print(i);
-      Serial.print(": State of ");
-      Serial.println(digitalRead(dipSwitchPins[i]));
     }
 
-    Serial.print("Button Switch State: ");
-    Serial.println(digitalRead(fountainPin));
     int currentSwitchValue = 0;
 
     for (int i = 0; i < 8; i++) {

@@ -1,5 +1,11 @@
 'use client';
 
+/*
+This component contains code that takes in the "All Fountains" prop (from the prismaFountains.tsx file passed to the main page.tsx file).
+It uses the map function to read each fountain in the fountain array of objects it received and displays each fountain on the page.
+Then there is a search bar that can be used to narrow the selection of fountains displayed.
+*/
+
 export default function SearchBar(props:any) {
   //console.log(props.fountainArray)
   return (<>
@@ -29,7 +35,7 @@ function searchFeature() {
 
   // Loop through all list items, and hide those who don't match the search query
   for(i=0; i < li.length; i++) {
-    a = li[i].getElementsByTagName("a")[0];
+    a = li[i].getElementsByClassName("fountainName")[0];
     txtValue = a.textContent || a.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
       li[i].style.display = "";

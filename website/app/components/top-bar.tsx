@@ -1,3 +1,7 @@
+/*
+This component just contains code to display Project Partner Organization Name and App Name
+*/
+
 export default function TopBar() {
   return (<>
   <div className="top-bar">

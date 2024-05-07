@@ -1,9 +1,19 @@
 'use client';
+
+/* This page contains the UI for the page that allows users to create a fountain in the databasae. 
+The user can enter in the name (fountian location) and initial number of bottles counted on fountain.
+After clicking submit, fountain is created in database.
+
+API returns the fountain object, which is then used to retieve the ID number.
+This ID value is then displayed on the website as this info needs to be used to set the ID on the Arduino.
+*/
+
 import { FormEvent } from 'react'
 import './create-styles.css';
 import prisma from '@/app/prismaFountains';
 
 export default function CreateFountain() {
+  //Whenever the form is submitted, this function retrieves the data from the input boxes and sends it to the Create API
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
  
@@ -16,7 +26,7 @@ export default function CreateFountain() {
       bottleNum: parseInt( (event.currentTarget.elements[1] as HTMLInputElement).value ),
     });
     
-    const res = await fetch('/api/create', {
+    const res = await fetch('/api/webapp/create', {
       method: 'POST',
       body: JSON.stringify({fountain: fountain}),
     });
@@ -43,8 +53,11 @@ export default function CreateFountain() {
     document.getElementById('DipswitchVals').innerHTML = returnString
 
 
-  alert("Fountain Created!"/*\nID: */);
+  
+    alert("Fountain Created!"/*\nID: */);
   }
+
+  //return button takes you back to main page (acts as a refresh)
   async function returnfunct() {
     window.location.href = '/';
   }
