@@ -46,7 +46,7 @@ export default function CreateFountain() {
       }
       else {
         returnString = "Off " +  returnString
-      }
+      } // I know this looks backwards but the dipswitches were implemented in reverse so this is correct
 
     }
     console.log(returnString)
