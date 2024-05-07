@@ -3,6 +3,13 @@ import { FormEvent } from 'react'
 import './create-styles.css';
 import prisma from '@/app/prismaFountains';
 
+/*
+This file contains code for UI allowing users to rename existing fountains in database.
+In the Rename page in webapp, there is a form requesting the user to enter an "ID" and "New Name."
+With that data, the API uses Prisma to search the database for the fountain with the corresponding ID,
+and then changes the name attribute with the new user entered name value.
+*/
+
 export default function RenameFountain() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

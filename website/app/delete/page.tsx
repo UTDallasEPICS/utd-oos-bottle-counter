@@ -2,6 +2,11 @@
 import { FormEvent } from 'react';
 import './delete-styles.css';
 
+/* This page contains the UI for the page that allows users to delete a fountain from the databasae. 
+There is a form that asks the user can enter in the ID of the fountain.
+After clicking submit, the ID value is sent to the Delete API which then removes the fountain from database.
+*/
+
 export default function DeleteFountain() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
