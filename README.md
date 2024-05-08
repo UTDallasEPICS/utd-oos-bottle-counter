@@ -12,7 +12,7 @@ Use the package manager [npm](https://www.npmjs.com/) to install required depend
 cd website
 npm i
 ```
-
+Change the .env.example to just .env
 ## Usage
 
 ```bash
