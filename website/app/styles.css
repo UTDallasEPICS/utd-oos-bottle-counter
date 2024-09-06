@@ -5,7 +5,7 @@ p {
 
 body {
   /*background: rgb(120, 115, 215);*/
-  background-color: rgb(72, 0, 255);
+  background-color: white;
 }
 
 label {
@@ -18,27 +18,42 @@ legend {
 }
 
 .top-bar {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  column-gap: 50px;
+  display: flex;
+  /* column-gap: 50px; */
+  justify-content: center;
   margin: 5px;
   margin-bottom: 0px;
-  background-color: black;
+  background-color: #154734;
   place-items: center;
   border: none;
   /*border-radius: 5px;*/
-  padding: 10px
+  padding: 10px;
+}
+
+.top-bar img {
+  width: 10%;
+  height: auto;
 }
 
 .nav-bar {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  display: flex;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
   margin: 5px;
   margin-top: 0px;
-  background-color: black;
+  background-color: #446c5d;
   place-items: center;
   border: none;
   /*border-radius: 5px;*/
+}
+
+.nav-bar div {
+  width: 120%;
+  text-align: center;
+  background-color: #154734;
+}
+
+.nav-bar p:hover {
+  text-decoration: underline;
 }
 
 .project-title {
