@@ -18,12 +18,14 @@ export default function CreateFountain() {
     event.preventDefault()
  
     //const formData = new FormData(event.currentTarget.id);
-    console.log((event.currentTarget.elements[0] as HTMLInputElement).value);
-    console.log((event.currentTarget.elements[1] as HTMLInputElement).value);
+    console.log((event.currentTarget.elements[0] as HTMLInputElement).value); // building
+    console.log((event.currentTarget.elements[1] as HTMLInputElement).value); // description
+    console.log((event.currentTarget.elements[1] as HTMLInputElement).value); // bottleNum
 
     const fountain = ({
-      name: (event.currentTarget.elements[0] as HTMLInputElement).value,
-      bottleNum: parseInt( (event.currentTarget.elements[1] as HTMLInputElement).value ),
+      building: (event.currentTarget.elements[0] as HTMLInputElement).value,
+      description: (event.currentTarget.elements[1] as HTMLInputElement).value,
+      bottleNum: parseInt( (event.currentTarget.elements[2] as HTMLInputElement).value ),
     });
     
     const res = await fetch('/api/webapp/create', {
@@ -50,7 +52,12 @@ export default function CreateFountain() {
 
     }
     console.log(returnString)
-    document.getElementById('DipswitchVals').innerHTML = returnString
+
+    const dipswitchValsLabel = document.getElementById('DipswitchVals');
+    if (dipswitchValsLabel !== null) {
+        dipswitchValsLabel.innerHTML = returnString;
+    }
+    
 
 
   
@@ -71,10 +78,16 @@ export default function CreateFountain() {
       <form onSubmit={onSubmit} className="create-form">
         <legend className="create-legend">Add New Fountain</legend>
 
-        <label htmlFor="fname" className="create-label">
-        Type the location name of the new fountain here <div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
+        <label htmlFor="fbuilding" className="create-label">
+        Type the building of the new fountain here <div className="second-line-block">(e.g., Jonsson Hall)</div>
         </label>
-        <input id="fname" type="text" placeholder="Fountain Name"
+        <input id="fbuilding" type="text" placeholder="Fountain Building"
+        className="create-input" required/>
+
+        <label htmlFor="flocation" className="create-label">
+        Type the general location description of the new fountain here <div className="second-line-block">(e.g., Near the first floor elevator)</div>
+        </label>
+        <input id="flocation" type="text" placeholder="Fountain Description"
         className="create-input" required/>
 
         <label htmlFor="fcounter" className="create-label">
