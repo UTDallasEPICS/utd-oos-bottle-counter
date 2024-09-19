@@ -26,7 +26,7 @@ export default async function Page() {
     </>);
   }
   else {
-    return <div className="empty-database"> No fountain data found. Start by clicking "Create" in the navigation bar above.</div>;
+    return <div className="empty-database"> No fountain data found. Start by clicking &quot;Create&quot; in the navigation bar above.</div>;
   }
   
 }

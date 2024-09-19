@@ -12,6 +12,7 @@ datasource db {
 
 model fountain {
   id    Int     @id @default(autoincrement())
-  name String
+  building String
+  description String
   bottleNum  Int
 }

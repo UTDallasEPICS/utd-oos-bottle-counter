@@ -13,7 +13,8 @@ export async function POST(request:any) {
   const { fountain } = await request.json();
   const res = await prisma.fountain.create({
     data: {
-      name: fountain.name,
+      building: fountain.building,
+      description: fountain.description,
       bottleNum: fountain.bottleNum,
     },
   });

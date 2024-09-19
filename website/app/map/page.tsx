@@ -60,16 +60,7 @@ export default function MapPage() {
         function onMove(e: MapMouseEvent) {
             const coords = e.lngLat;
 
-            // Set a UI indicator for dragging.
-            canvas.style.cursor = 'grabbing';
-
-            // Update the Point feature in `geojson` coordinates
-            // and call setData to the source layer `point` on it.
-            geojson.features[0].geometry.coordinates = [coords.lng, coords.lat];
-            const point = map.getSource('buildings') as maplibregl.GeoJSONSource;
-            if(point) {
-                point.setData(geojson);
-            }
+            canvas.style.cursor = 'pointer';
             
         }
 
@@ -120,13 +111,13 @@ export default function MapPage() {
 
             // When the cursor enters a feature in the point layer, prepare for dragging.
             map.on('mouseenter', 'points', () => {
-                map.setPaintProperty('points', 'circle-color', '#3bb2d0');
-                canvas.style.cursor = 'move';
+                // map.setPaintProperty('points', 'circle-color', '#3bb2d0');
+                canvas.style.cursor = 'pointer';
             });
 
             map.on('mouseleave', 'points', () => {
-                map.setPaintProperty('points', 'circle-color', '#3887be');
-                canvas.style.cursor = '';
+                // map.setPaintProperty('points', 'circle-color', '#3887be');
+                // canvas.style.cursor = '';
             });
 
             map.on('click', 'points', (e) => {

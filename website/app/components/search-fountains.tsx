@@ -15,8 +15,9 @@ export default function SearchBar(props:any) {
     {props.fountainArray.map( (fountain:any, index:Number) => (
     <li className="fountain" key={fountain.id}>
       <div className="fountainID">
-        ID #{fountain.id}, <div className="fountainName">{fountain.name}</div> 
+        ID #{fountain.id}, <div className="fountainName">{fountain.building}</div> 
       </div>
+      <div>{fountain.description}</div>
       <div>{fountain.bottleNum}</div>
     </li>) )}
   </ul>
