@@ -19,7 +19,7 @@ export async function POST(request:any) {
         id: newName.fountain.id,
       },
       data: {
-        name : newName.fountain.name,
+        description : newName.fountain.description,
       }
     });
   } catch {
