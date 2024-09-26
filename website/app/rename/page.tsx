@@ -20,7 +20,7 @@ export default function RenameFountain() {
 
     const fountain = ({
       id: parseInt( (event.currentTarget.elements[0] as HTMLInputElement).value ),
-      name: (event.currentTarget.elements[1] as HTMLInputElement).value,
+      description: (event.currentTarget.elements[1] as HTMLInputElement).value,
     });
     
     const res = await fetch('/api/webapp/rename', {
@@ -58,15 +58,15 @@ export default function RenameFountain() {
         <legend className="create-legend">Rename Fountain</legend>
 
         <label htmlFor="fname" className="create-label">
-        Type the ID of The Fountain you want to rename<div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
+        Type the ID of The fountain you want to rename<div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
         </label>
         <input id="fname" type="number" placeholder="Fountain ID" min="0"
         className="create-input" required/>
 
         <label htmlFor="fcounter" className="create-label">
-        Type the location name of the fountain here
+        Type the new description of the fountain here
         </label>
-        <input id="fcounter" type="text" placeholder="Fountain Name"
+        <input id="fcounter" type="text" placeholder="New Fountain Description"
         className="create-input" required/>
 
         <div className="buttonbox">
