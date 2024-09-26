@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
-import './styles.css'
+import './styles-output.css'
 import TopBar from './components/top-bar'
 import NavBar from './components/navigation-bar'
 
