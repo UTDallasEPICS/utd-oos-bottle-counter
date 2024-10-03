@@ -11,7 +11,7 @@ export default function NavBar() {
       <div><Link href="/"> <p>Search</p> </Link></div>
       <div><Link href="/create"> <p>Create</p> </Link></div>
       <div><Link href="/delete"> <p>Delete</p> </Link></div>
-      <div><Link href="/rename"> <p>Rename</p> </Link></div>
+      <div><Link href="/edit"> <p>Edit</p> </Link></div>
       <div><Link href="/download"> <p>Download</p> </Link></div>
       <div><Link href="/map"> <p>Map</p> </Link></div>
       <div></div>
