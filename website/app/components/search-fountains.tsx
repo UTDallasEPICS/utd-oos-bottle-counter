@@ -1,5 +1,7 @@
 'use client';
 
+import getBuildingsList from "../utilities";
+
 /*
 This component contains code that takes in the "All Fountains" prop (from the prismaFountains.tsx file passed to the main page.tsx file).
 It uses the map function to read each fountain in the fountain array of objects it received and displays each fountain on the page.
@@ -8,6 +10,9 @@ Then there is a search bar that can be used to narrow the selection of fountains
 
 export default function SearchBar(props:any) {
   //console.log(props.fountainArray)
+
+  
+
   return (<>
   <input type="text" id="myInput" placeholder="Search for Fountain..." className="search-bar" onKeyUp={searchFeature}/>
 
@@ -21,22 +26,26 @@ export default function SearchBar(props:any) {
       <div>{fountain.bottleNum}</div>
     </li>) )}
   </ul>
-
+  <button onClick={buttonThing}>Get Buildings</button>
   </>);
+}
+
+async function buttonThing() {
+  console.log(await getBuildingsList())
 }
 
 //source: https://www.w3schools.com/howto/howto_js_filter_lists.asp
 function searchFeature() {
   // Declare variables
   let input, filter, ul, li, a, i, txtValue;
-  input = document.getElementById('myInput');
+  input = document.getElementById('myInput') as HTMLInputElement;
   filter = input.value.toUpperCase();
-  ul = document.getElementById("myUL");
+  ul = document.getElementById("myUL") as HTMLElement;
   li = ul.getElementsByTagName('li');
 
   // Loop through all list items, and hide those who don't match the search query
   for(i=0; i < li.length; i++) {
-    a = li[i].getElementsByClassName("fountainName")[0];
+    a = li[i].getElementsByClassName("fountainName")[0] as HTMLElement;
     txtValue = a.textContent || a.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
       li[i].style.display = "";
