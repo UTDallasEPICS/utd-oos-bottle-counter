@@ -4,6 +4,7 @@ import maplibregl, { GeoJSONSource, MapMouseEvent } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect } from 'react';
 import { loadEnvConfig } from '@next/env';
+import { PrismaClient } from '@prisma/client';
 
 /* put description here */
 
@@ -148,6 +149,10 @@ export default function MapPage() {
         });
         
 
+
+
+
+
         return () => {
             map.remove();
         }
@@ -157,11 +162,135 @@ export default function MapPage() {
     
 
     return (
-        <div>
-            <div id="map" style={{ width: '90%', height: '500px' }}></div>
-            <div id="coordinates"></div>
-            <div id="description"></div>
+        // Both of the below portions are organized into:
+        // Display of info on left column, right column exclusively for map
+
+        <div className = "h-auto w-auto max-w-[1550px] max-h-[900px] mr-auto ml-auto">
+            <div className = "columnLeft" style = {{backgroundColor: "#ffad33", height: '820px'}}>
+                <div className = "overflow-y-scroll bg-slate-300 border">
+                    <table className = "block max-h-[600px] table-auto w-full">
+                        <tbody className = "table-auto">
+
+                            {/* The format of this table is:
+
+                            Number of     |   (bolded) Building Info
+                            water bottles |   Location Info */}
+
+                            <tr className = "bg-green-800 text-white">
+                                <td><strong>Bottle Count</strong></td>
+                                <td><strong>Location Info</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>100</td>
+                                <td> <strong>ECSW</strong> <br></br> Near the entrance of the ECSW building</td>
+                            </tr>
+
+                            <tr>
+                                <td>250</td>
+                                <td> <strong>Founders</strong> <br></br> Near the entrance</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+                            <tr>
+                                <td>333</td>
+                                <td> <strong>Placeholder</strong> <br></br> Test</td>
+                            </tr>
+
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div className = "columnRight" style = {{backgroundColor: "#154734"}}>
+                <div>
+                    <div id="map" style={{ width: '100%', height: '800px' }}></div>
+                    <div id="coordinates"></div>
+                    <div id="description"></div>
+                </div>
+            </div>
         </div>
+
+        
     );
 
     
