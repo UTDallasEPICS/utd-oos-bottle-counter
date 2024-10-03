@@ -58,11 +58,7 @@ export default function EditFountain() {
         <legend className="create-legend">Edit Fountain</legend>
 
         <label htmlFor="fname" className="create-label">
-<<<<<<< HEAD:website/app/edit/page.tsx
         Type the ID of The Fountain you want to edit<div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
-=======
-        Type the ID of The fountain you want to rename<div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
->>>>>>> 77830c97d60fdf714232b601266145ec23ec42a0:website/app/rename/page.tsx
         </label>
         <input id="fname" type="number" placeholder="Fountain ID" min="0"
         className="create-input" required/>
