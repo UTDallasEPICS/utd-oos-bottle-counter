@@ -62,12 +62,9 @@ export default function CreateFountain() {
 
   
     alert("Fountain Created!"/*\nID: */);
-  }
-
-  //return button takes you back to main page (acts as a refresh)
-  async function returnfunct() {
     window.location.href = '/';
   }
+
   
 
   return (<>
@@ -98,7 +95,6 @@ export default function CreateFountain() {
 
         <div className="buttonbox">
         <button type="submit" className="create-submit-btn">Create</button>
-        <button onClick={returnfunct} type="button" className="create-submit-btn" id="returnbutton">Return</button>
         </div>
       </form>
     </div>
