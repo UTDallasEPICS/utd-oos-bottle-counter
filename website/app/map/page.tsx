@@ -1,14 +1,18 @@
 'use client';
 import './map-styles.css';
-import maplibregl, { GeoJSONSource, MapMouseEvent } from 'maplibre-gl';
+import maplibregl, { MapMouseEvent } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
+import { buildingsToCoordinates } from '../utilities';
 import { loadEnvConfig } from '@next/env';
 import { PrismaClient } from '@prisma/client';
+import points from './points';
 
 /* put description here */
 
 export default function MapPage() {
+    const [fountainData, setFountainData] = useState<any[]>([])
+
     useEffect(() => {
         const map = new maplibregl.Map({
             container: 'map', // container id
@@ -21,42 +25,12 @@ export default function MapPage() {
         const descriptionBox = document.getElementById('description');
         
         const canvas = map.getCanvasContainer();
-
+        
         const geojson: GeoJSON.FeatureCollection<GeoJSON.Point> = {
             'type': 'FeatureCollection',
-            'features': [
-                {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': [-96.7514513305792, 32.98610030104277] as [number, number]
-                    },
-                    'properties': {
-                        'description': 'ECSW'
-                    }
-                },
-                {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': [-96.75042793676755, 32.98618327336875] as [number, number]
-                    },
-                    'properties': {
-                        'description': 'ECSS'
-                    }
-                },
-                {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': [-96.7516211929345, 32.986982962300104] as [number, number]
-                    },
-                    'properties': {
-                        'description': 'Hoblitzelle'
-                    }
-                }
-            ]
+            'features': points
         };
+        
 
         function onMove(e: MapMouseEvent) {
             const coords = e.lngLat;
@@ -68,11 +42,14 @@ export default function MapPage() {
         function onUp(e: MapMouseEvent) {
             const coords = e.lngLat;
 
-            // Print the coordinates of where the point had
-            // finished being dragged to on the map.
-            coordinates.style.display = 'block';
-            coordinates.innerHTML =
-                `Longitude: ${coords.lng}<br />Latitude: ${coords.lat}`;
+            if (coordinates) {
+                // Print the coordinates of where the point had
+                // finished being dragged to on the map.
+                coordinates.style.display = 'block';
+                coordinates.innerHTML =
+                    `Longitude: ${coords.lng}<br />Latitude: ${coords.lat}`;
+            }
+
             canvas.style.cursor = '';
 
             // Unbind mouse/touch events
@@ -81,7 +58,7 @@ export default function MapPage() {
         }
 
         map.on('load', () => {
-            // Add a single point to the map
+            
             map.addSource('buildings', {
                 'type': 'geojson',
                 'data': geojson
@@ -124,8 +101,10 @@ export default function MapPage() {
             map.on('click', 'points', (e) => {
                 console.log("hello, this is ");
                 console.log(e);
-                descriptionBox.innerHTML = e.features[0].properties.description;
-            })
+                if (descriptionBox) {
+                    descriptionBox.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description;
+                }
+            })  
 
             map.on('mousedown', 'points', (e) => {
                 // Prevent the default map drag behavior.
@@ -147,18 +126,26 @@ export default function MapPage() {
                 map.once('touchend', onUp);
             });
         });
-        
-
-
-
-
 
         return () => {
             map.remove();
         }
     }, []);
 
+    useEffect(() => {
 
+        const getFountainData = async () => {
+            const res = await fetch('/api/webapp/read');
+            const data = await res.json();
+            console.log(data.res);
+            setFountainData(data.res);
+        }
+
+        getFountainData()
+        
+    }, [])
+
+    console.log("fountainData: " + fountainData)
     
 
     return (
@@ -166,8 +153,9 @@ export default function MapPage() {
         // Display of info on left column, right column exclusively for map
 
         <div className = "h-auto w-auto max-w-[1550px] max-h-[900px] mr-auto ml-auto">
-            <div className = "columnLeft" style = {{backgroundColor: "#ffad33", height: '820px'}}>
+            <div className = "columnLeft bg-[#ffcb7d] h-[820px]">
                 <div className = "overflow-y-scroll bg-slate-300 border">
+                    {/* <div>{fountainData}</div> */}
                     <table className = "block max-h-[600px] table-auto w-full">
                         <tbody className = "table-auto">
 
@@ -178,102 +166,17 @@ export default function MapPage() {
 
                             <tr className = "bg-green-800 text-white">
                                 <td><strong>Bottle Count</strong></td>
-                                <td><strong>Location Info</strong></td>
+                                <td><strong>Building</strong></td>
                             </tr>
 
-                            <tr>
-                                <td>100</td>
-                                <td> <strong>ECSW</strong> <br></br> Near the entrance of the ECSW building</td>
-                            </tr>
-
-                            <tr>
-                                <td>250</td>
-                                <td> <strong>Founders</strong> <br></br> Near the entrance</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
-                            <tr>
-                                <td>333</td>
-                                <td> <strong>Placeholder</strong> <br></br> Test</td>
-                            </tr>
+                            {
+                                fountainData.map(fountain => (
+                                    <tr>
+                                        <td>{fountain.bottleNum}</td>
+                                        <td> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
+                                    </tr>
+                                ))
+                            }
 
                             
                         </tbody>
