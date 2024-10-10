@@ -36,16 +36,14 @@ export default function RenameFountain() {
     if(data.res !== "ID_NOT_FOUND_ERROR") {
       //console.log('success delete path');
       alert('Success: ID found, fountain renamed');
-      window.location.href = '/'
+      window.location.href = '/';
     }  
     else {
       //console.log('There was an error...');
       alert('Error: This ID does not exist in database...');
     }
     }
-  async function returnfunct() {
-    window.location.href = '/';
-  }
+
   
   
 
@@ -71,7 +69,6 @@ export default function RenameFountain() {
 
         <div className="buttonbox">
         <button type="submit" className="create-submit-btn">Create</button>
-        <button onClick={returnfunct} type="button" className="create-submit-btn" id="returnbutton">Return</button>
         </div>
       </form>
     </div>
