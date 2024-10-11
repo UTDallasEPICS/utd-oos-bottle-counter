@@ -3,10 +3,9 @@ import './map-styles.css';
 import maplibregl, { MapMouseEvent } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect , useState } from 'react';
-import { buildingsToCoordinates } from '../utilities';
+import { points } from '../utilities';
 import { loadEnvConfig } from '@next/env';
 import { PrismaClient } from '@prisma/client';
-import points from './points';
 
 /* put description here */
 
@@ -25,7 +24,8 @@ export default function MapPage() {
         const descriptionBox = document.getElementById('description');
         
         const canvas = map.getCanvasContainer();
-        
+
+        console.log("points is " + points)
         const geojson: GeoJSON.FeatureCollection<GeoJSON.Point> = {
             'type': 'FeatureCollection',
             'features': points
@@ -171,7 +171,7 @@ export default function MapPage() {
 
                             {
                                 fountainData.map(fountain => (
-                                    <tr>
+                                    <tr key={fountain.id}>
                                         <td>{fountain.bottleNum}</td>
                                         <td> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
                                     </tr>

@@ -26,7 +26,6 @@ export default function SearchBar(props:any) {
       <div>{fountain.bottleNum}</div>
     </li>) )}
   </ul>
-  <button onClick={buttonThing}>Get Buildings</button>
   </>);
 }
 

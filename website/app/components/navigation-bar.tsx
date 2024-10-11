@@ -16,6 +16,5 @@ export default function NavBar() {
       <div><Link href="/map"> <p>Map</p> </Link></div>
       <div></div>
     </div>
-    <div className='text-3xl font-bold text-green-500'>Hello</div>
   </>);
 }
