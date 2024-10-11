@@ -14,7 +14,12 @@
   padding: 10px;
 }
 
-td{
+td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+th {
   padding-left: 10px;
   padding-right: 10px;
 }

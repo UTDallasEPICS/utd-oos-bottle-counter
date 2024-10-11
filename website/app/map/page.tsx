@@ -154,24 +154,27 @@ export default function MapPage() {
 
         <div className = "h-auto w-auto max-w-[1550px] max-h-[900px] mr-auto ml-auto">
             <div className = "columnLeft bg-[#ffcb7d] h-[820px]">
-                <div className = "overflow-y-scroll bg-slate-300 border">
+                <div className = "overflow-y-scroll bg-slate-300">
                     {/* <div>{fountainData}</div> */}
                     <table className = "block max-h-[600px] table-auto w-full">
-                        <tbody className = "table-auto">
+                        <thead className='w-full'>
+                            <tr className = "bg-green-800 text-white w-full">
+                                <th className='w-[20%]'><strong>Bottle Count</strong></th>
+                                <th className='w-[80%]'><strong>Building</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody className = "table-auto w-full">
 
                             {/* The format of this table is:
 
                             Number of     |   (bolded) Building Info
                             water bottles |   Location Info */}
 
-                            <tr className = "bg-green-800 text-white">
-                                <td><strong>Bottle Count</strong></td>
-                                <td><strong>Building</strong></td>
-                            </tr>
+                            
 
                             {
                                 fountainData.map(fountain => (
-                                    <tr key={fountain.id}>
+                                    <tr key={fountain.id} className='w-full'>
                                         <td>{fountain.bottleNum}</td>
                                         <td> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
                                     </tr>
