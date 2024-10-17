@@ -42,17 +42,17 @@
 }
 
 .create-submit-btn {
-  display: block;
-  background-color: white;
-  color: black;
-  font-weight: bold;
-  border-style: solid;
-  border-width: 4px;
-  border-color: aquamarine;
+  justify-self: center;
+  padding: 10px 20px;
+  background-color: white; 
+  color: black; 
+  font-weight: bold; 
+  border-style: solid; 
+  border-width: 4px; 
+  border-color: aquamarine; 
   border-radius: 10px;
-  padding: 10px;
-  margin: 5px 10px;
-  transition-duration: 0.4s;
+  margin: 5px; 
+  transition-duration: 0.4s; 
 }
 
 .create-submit-btn:hover {
@@ -65,6 +65,7 @@
   border-color: rgb(33, 153, 113);
 }
 .buttonbox {
-  display : grid;
-  grid-template-columns: 1fr 1fr;
+  display : flex;
+  justify-content: center;
+  margin-top: 20px;
 }

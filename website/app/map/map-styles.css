@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.columnLeft{
+  float: left;
+  width: 30%;
+  padding: 10px;
+}
+
+.columnRight{
+  float: left;
+  width: 70%;
+  padding: 10px;
+}
+
+td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+th {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+tr{
+  height: 50px;
+}
+
+tr:nth-child(even) {
+  background-color: #fafafa;
+}

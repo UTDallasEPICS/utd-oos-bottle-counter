@@ -1,6 +1,6 @@
 'use client';
 
-import getBuildingsList from "../utilities";
+import { getBuildingsList } from "../utilities";
 
 /*
 This component contains code that takes in the "All Fountains" prop (from the prismaFountains.tsx file passed to the main page.tsx file).
@@ -26,7 +26,6 @@ export default function SearchBar(props:any) {
       <div>{fountain.bottleNum}</div>
     </li>) )}
   </ul>
-  <button onClick={buttonThing}>Get Buildings</button>
   </>);
 }
 
