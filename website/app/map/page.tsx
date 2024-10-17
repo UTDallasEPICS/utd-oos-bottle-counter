@@ -22,6 +22,9 @@ export default function MapPage() {
 
         const coordinates = document.getElementById('coordinates');
         const descriptionBox = document.getElementById('description');
+        const buildingInfo = document.getElementById('buildingInfo');
+        const tableDiv = document.getElementById('tableDiv');
+        const buildingTable = document.getElementById('buildingTable');
         
         const canvas = map.getCanvasContainer();
 
@@ -51,6 +54,7 @@ export default function MapPage() {
             }
 
             canvas.style.cursor = '';
+
 
             // Unbind mouse/touch events
             map.off('mousemove', onMove);
@@ -101,9 +105,46 @@ export default function MapPage() {
             map.on('click', 'points', (e) => {
                 console.log("hello, this is ");
                 console.log(e);
-                if (descriptionBox) {
-                    descriptionBox.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description;
+                if (buildingInfo) {
+                    //descriptionBox.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description;
+                    buildingInfo.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description + " Filling Stations";
+                    buildingInfo.style.visibility = 'visible';
                 }
+
+                if (tableDiv) {
+                    if (buildingTable) {
+                        // Filter for building subtable depending on selected point's building name
+                        // Credit goes to: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
+
+                        var tableLocat, tableFilter, tr, td, i, txtValue;
+                        tableLocat = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description
+                        if (tableLocat) {
+                            tableFilter = tableLocat.toUpperCase();
+                        }
+
+                        tr = buildingTable.getElementsByTagName("tr");
+
+                        for (i = 0; i < tr.length; i++) {
+                            td = tr[i].getElementsByTagName("td")[1];
+
+                            if (td) {
+                                txtValue = td.textContent || td.innerText;
+                                if (txtValue.toUpperCase().indexOf(tableFilter) > -1) {
+                                    tr[i].style.display = "";
+                                }
+                                else {
+                                    tr[i].style.display = "none";
+                                }
+                            }
+
+                        }
+                    }
+
+                    tableDiv.style.visibility = 'visible';
+
+                }
+
+                
             })  
 
             map.on('mousedown', 'points', (e) => {
@@ -185,6 +226,34 @@ export default function MapPage() {
                         </tbody>
                     </table>
                 </div>
+
+                {/* This box's text is invisible until a point is clicked on the map*/}
+                <div className = "block bg-slate-200 h-1/4 p-2 overflow-hidden">
+                    <p className = "text-black text-center text-lg invisible" id = "buildingInfo"></p>
+
+                    {/* The table underneath here will be invisible until someone clicks one of the points on the map
+                    Then, it will filter out all results except the selected building.*/}
+
+                    <div className = "overflow-y-scroll w-[100%] max-h-[90%] invisible bg-slate-300" id = "tableDiv">
+                        <table className = "block w-full" id = "buildingTable">
+                            <tbody className = "w-full">
+
+                                {
+                                    fountainData.map(fountain => (
+                                        <tr key={fountain.id} className='w-full'>
+                                            <td className = "w-[50%]">{fountain.bottleNum}</td>
+                                            <td className = "w-[50%]"> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
+                                        </tr>
+                                    ))
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
             </div>
 
             <div className = "columnRight" style = {{backgroundColor: "#154734"}}>
