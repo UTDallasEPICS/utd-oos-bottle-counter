@@ -3,7 +3,7 @@ import './map-styles.css';
 import maplibregl, { MapMouseEvent } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect , useState } from 'react';
-import { points } from '../utilities';
+import { buildingsToCoordinates, points } from '../utilities';
 import { loadEnvConfig } from '@next/env';
 import { PrismaClient } from '@prisma/client';
 
@@ -11,6 +11,7 @@ import { PrismaClient } from '@prisma/client';
 
 export default function MapPage() {
     const [fountainData, setFountainData] = useState<any[]>([])
+    const [buildingData, setBuildingData] = useState<any>(new Map())
 
     useEffect(() => {
         const map = new maplibregl.Map({
@@ -28,7 +29,7 @@ export default function MapPage() {
         
         const canvas = map.getCanvasContainer();
 
-        console.log("points is " + points)
+        // console.log("points is " + points)
         const geojson: GeoJSON.FeatureCollection<GeoJSON.Point> = {
             'type': 'FeatureCollection',
             'features': points
@@ -182,12 +183,41 @@ export default function MapPage() {
             setFountainData(data.res);
         }
 
+        const getBuildingData = async () => {
+            const res = await fetch('/api/webapp/readBuildingTotal');
+            const data = await res.json();
+
+            const map = new Map();
+            
+
+            data.forEach((element: { building: any; _sum: { bottleNum: any; }; }) => {
+                map.set(element.building, element._sum.bottleNum)
+            }); 
+
+            setBuildingData(map);
+        }
+
         getFountainData()
+        getBuildingData()
         
     }, [])
 
-    console.log("fountainData: " + fountainData)
-    
+    // console.log("fountainData: " + fountainData)
+    const getBuildingBottleNum = async (building: string) => {
+        const res = await fetch('/api/webapp/readBuildingTotal?building=ECSW', {
+            method: 'GET',
+        });        
+        // const data = await res.json();
+        // console.log(data._sum.bottleNum);
+        // if(data._sum.bottleNum) {
+        //     return data._sum.bottleNum
+        // } else {
+        //     return 0
+        // }
+
+        
+        
+    }
 
     return (
         // Both of the below portions are organized into:
@@ -214,11 +244,11 @@ export default function MapPage() {
                             
 
                             {
-                                fountainData.map(fountain => (
-                                    <tr key={fountain.id} className='w-full'>
-                                        <td>{fountain.bottleNum}</td>
-                                        <td> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
-                                    </tr>
+                                Array.from(buildingsToCoordinates.keys()).map(building => ( 
+                                    (<tr key={building} className='w-full'>
+                                        <td>{buildingData.get(building) || 0}</td>
+                                        <td> <strong>{building}</strong></td>
+                                    </tr>)            
                                 ))
                             }
 
