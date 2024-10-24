@@ -20,6 +20,10 @@ const getBuildingsList = async () => {
     return buildingsList
 }
 
+const getBuildingBottleCount = async () => {
+    
+}
+
 const buildingsToCoordinates = new Map<string, [number, number]>();
 buildingsToCoordinates.set("ECSW" , [-96.7514513305792, 32.98610030104277])
 buildingsToCoordinates.set("ECSS" , [-96.75042793676755, 32.98618327336875])
