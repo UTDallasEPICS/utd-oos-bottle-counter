@@ -42,7 +42,7 @@
 }
 
 .create-submit-btn {
-  display: block;
+  justify-self: center;
   background-color: white;
   color: black;
   font-weight: bold;
@@ -50,8 +50,8 @@
   border-width: 4px;
   border-color: aquamarine;
   border-radius: 10px;
-  padding: 10px;
-  margin: 5px 10px;
+  padding: 10px 20px;
+  margin: 5px;
   transition-duration: 0.4s;
 }
 
@@ -65,7 +65,7 @@
   border-color: rgb(33, 153, 113);
 }
 .buttonbox {
-  display : grid;
+  display : flex;
   justify-content: center;
-  grid-template-columns: 1fr 1fr;
+  margin-top: 20px;
 }

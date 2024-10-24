@@ -1,6 +1,6 @@
 'use client';
 import { FormEvent } from 'react'
-import './create-styles.css';
+import './edit-styles.css';
 import prisma from '@/app/prismaFountains';
 
 /*
@@ -48,27 +48,27 @@ export default function EditFountain() {
   
 
   return (<>
-  <div className="create-container">
+  <div className="edit-container">
     <dialog id="success">Fountain created successfully!</dialog>
     <div></div>
     <div>
-      <form onSubmit={onSubmit} className="create-form">
-        <legend className="create-legend">Edit Fountain</legend>
+      <form onSubmit={onSubmit} className="edit-form">
+        <legend className="edit-legend">Edit Fountain</legend>
 
-        <label htmlFor="fname" className="create-label">
+        <label htmlFor="fname" className="edit-label">
         Type the ID of The Fountain you want to edit<div className="second-line-block">(if multiple fountains in same building, we recommend typing a #number following the name)</div>
         </label>
         <input id="fname" type="number" placeholder="Fountain ID" min="0"
-        className="create-input" required/>
+        className="edit-input" required/>
 
-        <label htmlFor="fcounter" className="create-label">
+        <label htmlFor="fcounter" className="edit-label">
         Type the new description of the fountain here
         </label>
         <input id="fcounter" type="text" placeholder="New Fountain Description"
-        className="create-input" required/>
+        className="edit-input" required/>
 
         <div className="buttonbox">
-        <button type="submit" className="create-submit-btn">Create</button>
+        <button type="submit" className="edit-submit-btn">Edit</button>
         </div>
       </form>
     </div>
