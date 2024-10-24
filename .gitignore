@@ -1,4 +1,4 @@
 # MacOS Artifact File
 
 .DS_Store
-prisma/dev.db
+/dev.db

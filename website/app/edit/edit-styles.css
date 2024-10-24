@@ -1,17 +1,17 @@
-.create-container {
+.edit-container {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   margin-top: 20px;
 }
 
-.create-form {
+.edit-form {
   background-color: rgba(0, 179, 255, 0.7);
   border: none;
   border-radius: 10px;
   padding: 5px 10px;
 }
 
-.create-legend {
+.edit-legend {
   background-color: white;
   color: black;
   text-align: center;
@@ -23,7 +23,7 @@
   border-radius: 10px;
 }
 
-.create-label {
+.edit-label {
   color: white;
   margin-left: 10px;
 }
@@ -32,7 +32,7 @@
   display: block;
 }
 
-.create-input {
+.edit-input {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
   padding: 10px;
@@ -41,7 +41,7 @@
   border-radius: 10px;
 }
 
-.create-submit-btn {
+.edit-submit-btn {
   justify-self: center;
   padding: 10px 20px;
   background-color: white; 
@@ -55,12 +55,12 @@
   transition-duration: 0.4s; 
 }
 
-.create-submit-btn:hover {
+.edit-submit-btn:hover {
   background-color: aquamarine;
   cursor: pointer;
 }
 
-.create-submit-btn:active {
+.edit-submit-btn:active {
   background-color: rgb(33, 153, 113);
   border-color: rgb(33, 153, 113);
 }
