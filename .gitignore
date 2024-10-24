@@ -1,4 +1,8 @@
 # MacOS Artifact File
 
 .DS_Store
+<<<<<<< HEAD
 dev.db
+=======
+dev.db
+>>>>>>> b15709401bfd2f5a45b3e8ed0d6f73578a7cba2b
