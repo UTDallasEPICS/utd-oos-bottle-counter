@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { buildingsToCoordinates } from '@/app/utilities'; // Import buildingsToCoordinates from your utilities file
+import { buildingsToCoordinates } from '@/app/utilities';
 import './create-styles.css';
 
 export default function CreateFountain() {
@@ -10,96 +10,136 @@ export default function CreateFountain() {
 
   // Fetch the building list from buildingsToCoordinates when the component mounts
   useEffect(() => {
-    const fetchBuildings = () => {
-      // Get building names (the keys from the buildingsToCoordinates map)
+    if (buildingsToCoordinates) {
       const buildingNames = Array.from(buildingsToCoordinates.keys());
-      setBuildings(buildingNames); // Set building names in state
-    };
-
-    fetchBuildings(); // Call the function to set the buildings from the map
+      setBuildings(buildingNames);
+    } else {
+      console.error("buildingsToCoordinates is undefined");
+    }
   }, []);
 
-  // Whenever the form is submitted, this function retrieves the data from the input boxes and sends it to the Create API
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  // Handle fountain creation form submission
+  async function onSubmitFountain(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const fountain = {
-      building: (event.currentTarget.elements[0] as HTMLSelectElement).value, // Get selected building from dropdown
-      description: (event.currentTarget.elements[1] as HTMLInputElement).value,
-      bottleNum: parseInt((event.currentTarget.elements[2] as HTMLInputElement).value),
-    };
+    // Retrieve form data for fountain creation
+    const building = (event.currentTarget.elements[0] as HTMLSelectElement).value;
+    const description = (event.currentTarget.elements[1] as HTMLInputElement).value;
+    const bottleNum = parseInt((event.currentTarget.elements[2] as HTMLInputElement).value);
 
-    const res = await fetch('/api/webapp/create', {
-      method: 'POST',
-      body: JSON.stringify({ fountain }),
-    });
+    // Construct fountain data object
+    const fountain = { building, description, bottleNum };
 
-    const data = await res.json();
-    const displayNum = data.res.id;
-    let binary = displayNum.toString(2);
-    while (binary.length < 8) {
-      binary = '0' + binary;
+    try {
+      // Send POST request to create fountain
+      const res = await fetch('/api/webapp/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ fountain }),
+      });
+
+      if (!res.ok) throw new Error("Failed to create fountain");
+
+      // Parse response
+      const data = await res.json();
+      if (!data?.res?.id) throw new Error("Invalid response from API");
+
+      // Generate dipswitch binary display
+      const binaryDisplay = createBinaryDisplay(data.res.id);
+
+      // Display dipswitch values
+      const dipswitchValsLabel = document.getElementById('DipswitchVals');
+      if (dipswitchValsLabel) dipswitchValsLabel.innerHTML = binaryDisplay;
+
+      alert('Fountain Created!');
+      window.location.href = '/';
+    } catch (error) {
+      console.error("Error creating fountain:", error);
+      alert('Failed to create fountain. Please try again.');
     }
+  }
 
-    let returnString = '';
-    for (let i = 0; i < binary.length; i++) {
-      returnString = binary.charAt(i) === '1' ? 'On ' + returnString : 'Off ' + returnString;
+  // Handle building creation form submission
+  async function onSubmitBuilding(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const name = (event.currentTarget.elements[0] as HTMLInputElement).value;
+    const location = (event.currentTarget.elements[1] as HTMLInputElement).value;
+
+    const building = { name, location };
+
+    try {
+      const res = await fetch('/api/webapp/create-building', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ building }),
+      });
+
+      if (!res.ok) throw new Error("Failed to create building");
+
+      alert('Building Created!');
+      window.location.href = '/';
+    } catch (error) {
+      console.error("Error creating building:", error);
+      alert('Failed to create building. Please try again.');
     }
+  }
 
-    const dipswitchValsLabel = document.getElementById('DipswitchVals');
-    if (dipswitchValsLabel !== null) {
-      dipswitchValsLabel.innerHTML = returnString;
-    }
-
-    alert('Fountain Created!');
-    window.location.href = '/';
+  // Helper function to generate dipswitch binary display
+  function createBinaryDisplay(id: number) {
+    let binary = id.toString(2).padStart(8, '0');
+    return Array.from(binary)
+      .map((bit) => (bit === '1' ? 'On' : 'Off'))
+      .join(' ');
   }
 
   return (
-    <>
-      <div className="create-container">
-        <dialog id="success">Fountain created successfully!</dialog>
-        <div></div>
-        <div>
-          <form onSubmit={onSubmit} className="create-form">
-            <legend className="create-legend">Add New Fountain</legend>
+    <div className="create-container">
+      {/* Fountain Creation Form */}
+      <form onSubmit={onSubmitFountain} className="create-form">
+        <legend className="create-legend">Add New Fountain</legend>
+        <label htmlFor="fbuilding" className="create-label">Select the building of the new fountain here</label>
+        <select id="fbuilding" className="create-input" required>
+          <option value="">-- Select a Building --</option>
+          {buildings.map((building, index) => (
+            <option key={index} value={building}>{building}</option>
+          ))}
+        </select>
 
-            {/* Building dropdown */}
-            <label htmlFor="fbuilding" className="create-label">
-              Select the building of the new fountain here
-            </label>
-            <select id="fbuilding" className="create-input" required>
-              <option value="">-- Select a Building --</option>
-              {buildings.map((building, index) => (
-                <option key={index} value={building}>
-                  {building}
-                </option>
-              ))}
-            </select>
+        <label htmlFor="flocation" className="create-label">Type the general location description</label>
+        <input id="flocation" type="text" placeholder="Fountain Description" className="create-input" required />
 
-            <label htmlFor="flocation" className="create-label">
-              Type the general location description of the new fountain here
-              <div className="second-line-block">(e.g., Near the first floor elevator)</div>
-            </label>
-            <input id="flocation" type="text" placeholder="Fountain Description" className="create-input" required />
+        <label htmlFor="fcounter" className="create-label">Type the number of water bottles saved</label>
+        <input id="fcounter" type="number" min="0" placeholder="Initial Counter" className="create-input" required />
 
-            <label htmlFor="fcounter" className="create-label">
-              Type the number of water bottles saved (zero if unused)
-            </label>
-            <input id="fcounter" type="number" min="0" placeholder="Initial Counter" className="create-input" required />
-
-            <div className="buttonbox">
-              <button type="submit" className="create-submit-btn">Create</button>
-            </div>
-          </form>
+        <div className="buttonbox">
+          <button type="submit" className="create-submit-btn">Create Fountain</button>
         </div>
-        <div></div>
-        <div></div>
-        <div>
-          <p>Format For Device Dipswitch 1 to 8, Left to Right:</p>
-          <p id="DipswitchVals"></p>
+      </form>
+
+      {/* Building Creation Form */}
+      <form onSubmit={onSubmitBuilding} className="create-form">
+        <legend className="create-legend">Add New Building</legend>
+        <label htmlFor="bname" className="create-label">Enter the building name</label>
+        <input id="bname" type="text" placeholder="Building Name" className="create-input" required />
+
+        <label htmlFor="blocation" className="create-label">Enter the building's general location</label>
+        <input id="blocation" type="text" placeholder="Building Location" className="create-input" required />
+
+        <div className="buttonbox">
+          <button type="submit" className="create-submit-btn">Create Building</button>
         </div>
+      </form>
+
+      {/* Dipswitch Display */}
+      <div>
+        <p>Format For Device Dipswitch 1 to 8, Left to Right:</p>
+        <p id="DipswitchVals"></p>
       </div>
-    </>
+    </div>
   );
 }
