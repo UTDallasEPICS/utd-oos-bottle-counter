@@ -66,9 +66,9 @@ export default function CreateFountain() {
     event.preventDefault();
 
     const name = (event.currentTarget.elements[0] as HTMLInputElement).value;
-    const location = (event.currentTarget.elements[1] as HTMLInputElement).value;
-
-    const building = { name, location };
+    const longitude = (event.currentTarget.elements[1] as HTMLInputElement).value;
+    const latitude = (event.currentTarget.elements[2] as HTMLInputElement).value;
+    const building = { name, longitude, latitude };
 
     try {
       const res = await fetch('/api/webapp/create-building', {
@@ -127,8 +127,11 @@ export default function CreateFountain() {
         <label htmlFor="bname" className="create-label">Enter the building name</label>
         <input id="bname" type="text" placeholder="Building Name" className="create-input" required />
 
-        <label htmlFor="blocation" className="create-label">Enter the building&apos;s general location</label>
-        <input id="blocation" type="text" placeholder="Building Location" className="create-input" required />
+        <label htmlFor="blocation" className="create-label">Enter the building&apos;s Latitude</label>
+        <input id="blocation" type="text" placeholder="Latitude" className="create-input" required />
+
+        <label htmlFor="blocation" className="create-label">Enter the building&apos;s Longitude</label>
+        <input id="blocation" type="text" placeholder="Longitude" className="create-input" required />
 
         <div className="buttonbox">
           <button type="submit" className="create-submit-btn">Create Building</button>
