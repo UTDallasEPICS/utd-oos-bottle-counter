@@ -16,3 +16,9 @@ model fountain {
   description String
   bottleNum  Int
 }
+
+model building {
+  buildingName String @id
+  buildingLongitude Decimal
+  buildingLatitude Decimal
+}
