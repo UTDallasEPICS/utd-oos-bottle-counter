@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { buildingsToCoordinates } from '@/app/utilities';
+import { getbuildingstoCoordinates } from '@/app/utilities';
 import './create-styles.css';
 
 export default function CreateFountain() {
@@ -10,11 +10,23 @@ export default function CreateFountain() {
 
   // Fetch the building list from buildingsToCoordinates when the component mounts
   useEffect(() => {
-    if (buildingsToCoordinates) {
-      const buildingNames = Array.from(buildingsToCoordinates.keys());
-      setBuildings(buildingNames);
+    if (getbuildingstoCoordinates) {
+      // Define async function to get keys
+      const getKeys = async () => {
+        const data = await getbuildingstoCoordinates(); // Await the result of the async function
+        return Array.from(data.keys()); // Call .keys() on the Map and convert to array
+      };
+  
+      // Call the async function and set the building names
+      getKeys()
+        .then((buildingNames) => {
+          setBuildings(buildingNames); // Set the state with the building names (keys)
+        })
+        .catch((error) => {
+          console.error('Error fetching building names:', error);
+        });
     } else {
-      console.error("buildingsToCoordinates is undefined");
+      console.error('getbuildingstoCoordinates is undefined');
     }
   }, []);
 
