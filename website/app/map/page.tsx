@@ -4,8 +4,6 @@ import maplibregl, { MapMouseEvent } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect , useState } from 'react';
 import { buildingsToCoordinates, points } from '../utilities';
-import { loadEnvConfig } from '@next/env';
-import { PrismaClient } from '@prisma/client';
 
 /* put description here */
 
@@ -21,8 +19,8 @@ export default function MapPage() {
             zoom: 15 // starting zoom
         });
 
-        const coordinates = document.getElementById('coordinates');
-        const descriptionBox = document.getElementById('description');
+        //const coordinates = document.getElementById('coordinates');
+        //const descriptionBox = document.getElementById('description');
         const buildingInfo = document.getElementById('buildingInfo');
         const tableDiv = document.getElementById('tableDiv');
         const buildingTable = document.getElementById('buildingTable');
@@ -46,13 +44,14 @@ export default function MapPage() {
         function onUp(e: MapMouseEvent) {
             const coords = e.lngLat;
 
-            if (coordinates) {
+            /* if (coordinates) {
                 // Print the coordinates of where the point had
-                // finished being dragged to on the map.
+                // finished being dragged to on the map. Debug.
+
                 coordinates.style.display = 'block';
                 coordinates.innerHTML =
-                    `Longitude: ${coords.lng}<br />Latitude: ${coords.lat}`;
-            }
+                    `Longitude: ${coords.lng}<br />Latitude: ${coords.lat}`; 
+            } */
 
             canvas.style.cursor = '';
 
@@ -197,8 +196,30 @@ export default function MapPage() {
             setBuildingData(map);
         }
 
+        const getCounter = async () => {
+            let totalCounter = 0;
+
+            const res = await fetch('/api/webapp/readBuildingTotal');
+            const data = await res.json();
+
+            data.forEach((element: { building: any; _sum: { bottleNum: any; }; }) => {
+                totalCounter += element._sum.bottleNum;
+            }); 
+            
+            //Code underneath here pertains to the HTML side now
+            var counterText = document.getElementById('waterCounter');
+            var baseText = "Total Water Bottle Count: ";
+
+
+            if (counterText) {
+                counterText.textContent = baseText + totalCounter.toString();
+            }
+
+        }
+
         getFountainData()
         getBuildingData()
+        getCounter();
         
     }, [])
 
@@ -220,82 +241,99 @@ export default function MapPage() {
     }
 
     return (
+
+        
+
         // Both of the below portions are organized into:
         // Display of info on left column, right column exclusively for map
 
-        <div className = "h-auto w-auto max-w-[1550px] max-h-[900px] mr-auto ml-auto">
-            <div className = "columnLeft bg-[#ffcb7d] h-[820px]">
-                <div className = "overflow-y-scroll bg-slate-300">
-                    {/* <div>{fountainData}</div> */}
-                    <table className = "block max-h-[600px] table-auto w-full">
-                        <thead className='w-full'>
-                            <tr className = "bg-green-800 text-white w-full">
-                                <th className='w-[20%]'><strong>Bottle Count</strong></th>
-                                <th className='w-[80%]'><strong>Building</strong></th>
-                            </tr>
-                        </thead>
-                        <tbody className = "table-auto w-full">
+        <div className = "p-6">
+            <h1 className = "font-bold font-mono text-4xl text-center">Refillable Station Locator</h1>
 
-                            {/* The format of this table is:
+            <p>&nbsp;</p>
+            <div className = "ml-auto mr-auto max-w-[1200px]">
+                <p className = "text-center text-black"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>&nbsp;</p>
+            </div>
 
-                            Number of     |   (bolded) Building Info
-                            water bottles |   Location Info */}
+            <div className = "h-auto w-auto max-w-[1550px] max-h-[900px] mr-auto ml-auto">
+                    <div className = "rounded-t-lg block h-24 bg-green-800 p-6">
+                        <p className = "font-bold font-mono text-4xl text-center" id = "waterCounter">Total Water Bottle Count: </p>
+                    </div>
 
-                            
+                    <div className = "columnLeft bg-[#ffcb7d] h-[820px]">
+                        <div className = "overflow-y-scroll bg-slate-300">
+                            {/* <div>{fountainData}</div> */}
+                            <table className = "block max-h-[600px] table-auto w-full">
+                                <thead className='w-full'>
+                                    <tr className = "bg-green-800 text-white w-full">
+                                        <th className='w-[30%] text-left'><strong>Bottle Count</strong></th>
+                                        <th className='w-[60%] text-left'><strong>Building</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody className = "table-auto w-full">
 
-                            {
-                                Array.from(buildingsToCoordinates.keys()).map(building => ( 
-                                    (<tr key={building} className='w-full'>
-                                        <td>{buildingData.get(building) || 0}</td>
-                                        <td> <strong>{building}</strong></td>
-                                    </tr>)            
-                                ))
-                            }
+                                    {/* The format of this table is:
 
-                            
-                        </tbody>
-                    </table>
-                </div>
+                                    Number of     |   (bolded) Building Info
+                                    water bottles |   Location Info */}
 
-                {/* This box's text is invisible until a point is clicked on the map*/}
-                <div className = "block bg-slate-200 h-1/4 p-2 overflow-hidden">
-                    <p className = "text-black text-center text-lg invisible" id = "buildingInfo"></p>
+                                    
 
-                    {/* The table underneath here will be invisible until someone clicks one of the points on the map
-                    Then, it will filter out all results except the selected building.*/}
+                                    {
+                                        Array.from(buildingsToCoordinates.keys()).map(building => ( 
+                                            (<tr key={building} className='w-full'>
+                                                <td>{buildingData.get(building) || 0}</td>
+                                                <td> <strong>{building}</strong></td>
+                                            </tr>)            
+                                        ))
+                                    }
 
-                    <div className = "overflow-y-scroll w-[100%] max-h-[90%] invisible bg-slate-300" id = "tableDiv">
-                        <table className = "block w-full" id = "buildingTable">
-                            <tbody className = "w-full">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
 
-                                {
-                                    fountainData.map(fountain => (
-                                        <tr key={fountain.id} className='w-full'>
-                                            <td className = "w-[50%]">{fountain.bottleNum}</td>
-                                            <td className = "w-[50%]"> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
-                                        </tr>
-                                    ))
-                                }
+                        {/* This box's text is invisible until a point is clicked on the map*/}
+                        <div className = "block bg-slate-200 h-1/4 p-2 overflow-hidden">
+                            <div className = "my-2">
+                                <p className = "text-black text-center text-lg invisible" id = "buildingInfo"></p>
+                            </div>
 
-                            </tbody>
-                        </table>
+                            {/* The table underneath here will be invisible until someone clicks one of the points on the map
+                            Then, it will filter out all results except the selected building.*/}
+
+                            <div className = "overflow-y-scroll w-[100%] max-h-[90%] invisible bg-slate-300" id = "tableDiv">
+                                <table className = "table-auto w-full" id = "buildingTable">
+                                    <tbody className = "w-full">
+
+                                        {
+                                            fountainData.map(fountain => (
+                                                <tr key={fountain.id} className='w-full'>
+                                                    <td className = "w-[50%]">{fountain.bottleNum}</td>
+                                                    <td className = "w-[50%]"> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
+                                                </tr>
+                                            ))
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div className = "columnRight" style = {{backgroundColor: "#154734"}}>
+                        <div>
+                            <div id="map" style={{ width: '100%', height: '800px' }}></div>
+                        </div>
                     </div>
 
                 </div>
-
-
-            </div>
-
-            <div className = "columnRight" style = {{backgroundColor: "#154734"}}>
-                <div>
-                    <div id="map" style={{ width: '100%', height: '800px' }}></div>
-                    <div id="coordinates"></div>
-                    <div id="description"></div>
-                </div>
-            </div>
         </div>
-
-        
     );
 
     

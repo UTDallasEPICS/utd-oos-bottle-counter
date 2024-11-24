@@ -43,8 +43,8 @@ const getbuildingstoCoordinates = async() => {
     const latSet = new Set(latitudeList);
 
     buildingNameList = Array.from(nameSet);
-    longitudeList = Array.from(nameSet);
-    latitudeList = Array.from(nameSet);
+    longitudeList = Array.from(longSet);
+    latitudeList = Array.from(latSet);
 
     const buildingsToCoordinates = new Map<string, [number, number]>();
     for (let i = 0; i < buildingNameList.length; i++) {
