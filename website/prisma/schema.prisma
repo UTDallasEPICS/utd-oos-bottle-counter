@@ -10,15 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model fountain {
+model Fountain {
   id    Int     @id @default(autoincrement())
-  building String
+  buildingId Int
+  building Building @relation(fields: [buildingId], references: [buildingId])
   description String
   bottleNum  Int
 }
 
-model building {
-  buildingName String @id
+model Building {
+  buildingId Int @id @default(autoincrement())
+  buildingName String
   buildingLongitude Decimal
   buildingLatitude Decimal
+  fountains Fountain[]
 }
