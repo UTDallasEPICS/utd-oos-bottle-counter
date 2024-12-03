@@ -8,19 +8,18 @@ It uses the map function to read each fountain in the fountain array of objects 
 Then there is a search bar that can be used to narrow the selection of fountains displayed.
 */
 
-export default function SearchBar(props:any) {
+export default function BuildingSearchBar(props:any) {
 
   return (<>
-  <input type="text" id="myInput" placeholder="Search for Fountain..." className="search-bar" onKeyUp={searchFeature}/>
+  <input type="text" id="myBuildingInput" placeholder="Search for Building..." className="search-bar" onKeyUp={searchFeature}/>
 
-  <ul id="myUL">
-    {props.fountainArray.map( (fountain:any, index:Number) => (
-    <li className="fountain" key={fountain.id}>
-      <div className="fountainID">
-        ID #{fountain.id}, <div className="fountainName">{fountain.building.buildingName}</div> 
+  <ul id="myBuildingUL">
+    {props.buildingArray.map( (building:any, index:Number) => (
+    <li className="fountain" key={building.buildingId}>
+      <div className="fountainID buildingId">
+        ID #{building.buildingId}, <div className="fountainName buildingName">{building.buildingName}</div> 
       </div>
-      <div>{fountain.description}</div>
-      <div>{fountain.bottleNum}</div>
+      <div>{building.buildingBottleCount}</div>
     </li>) )}
   </ul>
   </>);
@@ -30,14 +29,14 @@ export default function SearchBar(props:any) {
 function searchFeature() {
   // Declare variables
   let input, filter, ul, li, a, i, txtValue;
-  input = document.getElementById('myInput') as HTMLInputElement;
+  input = document.getElementById('myBuildingInput') as HTMLInputElement;
   filter = input.value.toUpperCase();
-  ul = document.getElementById("myUL") as HTMLElement;
+  ul = document.getElementById("myBuildingUL") as HTMLElement;
   li = ul.getElementsByTagName('li');
 
   // Loop through all list items, and hide those who don't match the search query
   for(i=0; i < li.length; i++) {
-    a = li[i].getElementsByClassName("fountainName")[0] as HTMLElement;
+    a = li[i].getElementsByClassName("buildingName")[0] as HTMLElement;
     txtValue = a.textContent || a.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
       li[i].style.display = "";

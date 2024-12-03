@@ -35,16 +35,18 @@ export default function CreateFountain() {
     event.preventDefault();
 
     // Retrieve form data for fountain creation
-    const building = (event.currentTarget.elements[0] as HTMLSelectElement).value;
+    const buildingName = (event.currentTarget.elements[0] as HTMLSelectElement).value;
     const description = (event.currentTarget.elements[1] as HTMLInputElement).value;
     const bottleNum = parseInt((event.currentTarget.elements[2] as HTMLInputElement).value);
 
     // Construct fountain data object
-    const fountain = { building, description, bottleNum };
+    const fountain = { buildingName, description, bottleNum };
+
+    console.log(fountain)
 
     try {
       // Send POST request to create fountain
-      const res = await fetch('/api/webapp/create', {
+      const res = await fetch('/api/webapp/fountains', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +85,7 @@ export default function CreateFountain() {
     const building = { name, longitude, latitude };
 
     try {
-      const res = await fetch('/api/webapp/create-building', {
+      const res = await fetch('/api/webapp/buildings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

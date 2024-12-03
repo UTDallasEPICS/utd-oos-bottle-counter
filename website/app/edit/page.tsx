@@ -23,9 +23,9 @@ export default function EditFountain() {
       description: (event.currentTarget.elements[1] as HTMLInputElement).value,
     });
     
-    const res = await fetch('/api/webapp/rename', {
-      method: 'POST',
-      body: JSON.stringify({fountain: fountain}),
+    const res = await fetch(`/api/webapp/fountains/${fountain.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({description: fountain.description}),
     });
 
     // Handle response if necessary
