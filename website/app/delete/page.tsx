@@ -14,13 +14,10 @@ export default function DeleteFountain() {
     //const formData = new FormData(event.currentTarget.id);
     console.log((event.currentTarget.elements[0] as HTMLInputElement).value);
 
-    const fountain = ({
-      id: parseInt( (event.currentTarget.elements[0] as HTMLInputElement).value ),
-    });
+    const id = parseInt( (event.currentTarget.elements[0] as HTMLInputElement).value )
     
-    const res = await fetch('/api/webapp/delete', {
-      method: 'POST',
-      body: JSON.stringify({fountain: fountain}),
+    const res = await fetch(`/api/webapp/fountains/${id}`, {
+      method: 'DELETE',
     });
 
     // Handle response if necessary

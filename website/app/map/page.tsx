@@ -9,7 +9,7 @@ import { buildingsToCoordinates, points } from '../utilities';
 
 export default function MapPage() {
     const [fountainData, setFountainData] = useState<any[]>([])
-    const [buildingData, setBuildingData] = useState<any>(new Map())
+    const [buildingData, setBuildingData] = useState<any>([])
 
     useEffect(() => {
         const map = new maplibregl.Map({
@@ -176,35 +176,42 @@ export default function MapPage() {
     useEffect(() => {
 
         const getFountainData = async () => {
-            const res = await fetch('/api/webapp/read');
+            const res = await fetch('/api/webapp/fountains');
             const data = await res.json();
             console.log(data.res);
             setFountainData(data.res);
         }
 
         const getBuildingData = async () => {
-            const res = await fetch('/api/webapp/readBuildingTotal');
+            const res = await fetch('/api/webapp/buildings');
             const data = await res.json();
 
-            const map = new Map();
+            // const map = new Map();
             
 
-            data.forEach((element: { building: any; _sum: { bottleNum: any; }; }) => {
-                map.set(element.building, element._sum.bottleNum)
-            }); 
+            // data.forEach((element: { building: any; _sum: { bottleNum: any; }; }) => {
+            //     map.set(element.building, element._sum.bottleNum)
+            // }); 
 
-            setBuildingData(map);
+            // setBuildingData(map);
+            console.log(data.res.sort())
+            setBuildingData(data.res.sort());
+            
         }
 
         const getCounter = async () => {
             let totalCounter = 0;
 
-            const res = await fetch('/api/webapp/readBuildingTotal');
+            const res = await fetch('/api/webapp/buildings');
             const data = await res.json();
 
-            data.forEach((element: { building: any; _sum: { bottleNum: any; }; }) => {
-                totalCounter += element._sum.bottleNum;
-            }); 
+            data.res.forEach((building: any) => {
+                totalCounter += building.buildingBottleCount;
+            })
+
+            // data.forEach((element: { building: any; _sum: { bottleNum: any; }; }) => {
+            //     totalCounter += element._sum.bottleNum;
+            // }); 
             
             //Code underneath here pertains to the HTML side now
             var counterText = document.getElementById('waterCounter');
@@ -225,7 +232,7 @@ export default function MapPage() {
 
     // console.log("fountainData: " + fountainData)
     const getBuildingBottleNum = async (building: string) => {
-        const res = await fetch('/api/webapp/readBuildingTotal?building=ECSW', {
+        const res = await fetch(`/api/webapp/buildings?buildingName=${building}`, {
             method: 'GET',
         });        
         // const data = await res.json();
@@ -284,12 +291,20 @@ export default function MapPage() {
                                     
 
                                     {
-                                        Array.from(buildingsToCoordinates.keys()).map(building => ( 
-                                            (<tr key={building} className='w-full'>
-                                                <td>{buildingData.get(building) || 0}</td>
-                                                <td> <strong>{building}</strong></td>
-                                            </tr>)            
-                                        ))
+                                        // Array.from(buildingsToCoordinates.keys()).map(building => ( 
+                                        //     (<tr key={building} className='w-full'>
+                                        //         <td>{buildingData.get(building) || 0}</td>
+                                        //         <td> <strong>{building}</strong></td>
+                                        //     </tr>)            
+                                        // ))
+                                        buildingData.map((building: any) => {
+                                            return (
+                                                <tr key={building.buildingId} className='w-full'>
+                                                    <td>{building.buildingBottleCount}</td>
+                                                    <td> <strong>{building.buildingName}</strong></td>
+                                                </tr>
+                                            );          
+                                        })
                                     }
 
                                     
@@ -314,7 +329,7 @@ export default function MapPage() {
                                             fountainData.map(fountain => (
                                                 <tr key={fountain.id} className='w-full'>
                                                     <td className = "w-[50%]">{fountain.bottleNum}</td>
-                                                    <td className = "w-[50%]"> <strong>{fountain.building}</strong> <br></br>{fountain.description}</td>
+                                                    <td className = "w-[50%]"> <strong>{fountain.building.buildingName}</strong> <br></br>{fountain.description}</td>
                                                 </tr>
                                             ))
                                         }

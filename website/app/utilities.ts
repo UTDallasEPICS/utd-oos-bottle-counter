@@ -3,16 +3,13 @@ import { Decimal } from '@prisma/client/runtime/library';
 import { NextResponse } from 'next/server';
 
 const getBuildingsList = async () => {
-    const res = await fetch('/api/webapp/readBuildings', {
+    const res = await fetch('/api/webapp/buildings', {
         method: 'GET',
     })
 
     const data = await res.json()
 
-    let buildingsList = data.map(({ building } : {building:string}) => building )
-
-    // console.log(data)
-    // console.log(buildingsList)
+    let buildingsList = data.map((building: any) => building.buildingName )
 
     const buildingsSet = new Set(buildingsList)
 
@@ -26,17 +23,14 @@ const getBuildingBottleCount = async () => {
 
 
 const getbuildingstoCoordinates = async() => {
-    const res = await fetch('/api/webapp/getBuildingSchema', {
+    const res = await fetch('/api/webapp/buildings', {
         method: 'GET',
     }) 
 
     const data = await res.json();
     let buildingNameList = data.map(({ buildingName } : {buildingName:string}) => buildingName );
-    let longitudeList = data.map(({ Longitude } : {Longitude:Decimal}) => Longitude );
-    let latitudeList = data.map(({ Latitude } : {Latitude:Decimal}) => Latitude );
-
-    //console.log(data);
-    //console.log(buildingNameList);
+    let longitudeList = data.map(({ buildingLongitude } : {buildingLongitude:Decimal}) => buildingLongitude );
+    let latitudeList = data.map(({ buildingLatitude } : {buildingLatitude:Decimal}) => buildingLatitude );
 
     const nameSet = new Set(buildingNameList);
     const longSet = new Set(longitudeList);
