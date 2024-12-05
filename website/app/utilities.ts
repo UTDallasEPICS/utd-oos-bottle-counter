@@ -9,7 +9,7 @@ const getBuildingsList = async () => {
 
     const data = await res.json()
 
-    let buildingsList = data.map((building: any) => building.buildingName )
+    let buildingsList = data.res.map((building: any) => building.buildingName )
 
     const buildingsSet = new Set(buildingsList)
 
@@ -27,7 +27,7 @@ const getbuildingstoCoordinates = async() => {
         method: 'GET',
     }) 
 
-    const data = await res.json();
+    const data = (await res.json()).res;
     let buildingNameList = data.map(({ buildingName } : {buildingName:string}) => buildingName );
     let longitudeList = data.map(({ buildingLongitude } : {buildingLongitude:Decimal}) => buildingLongitude );
     let latitudeList = data.map(({ buildingLatitude } : {buildingLatitude:Decimal}) => buildingLatitude );
