@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { buildingsToCoordinates } from '@/app/utilities';
+import { getbuildingstoCoordinates } from '@/app/utilities';
 import './create-styles.css';
 
 export default function CreateFountain() {
@@ -10,11 +10,23 @@ export default function CreateFountain() {
 
   // Fetch the building list from buildingsToCoordinates when the component mounts
   useEffect(() => {
-    if (buildingsToCoordinates) {
-      const buildingNames = Array.from(buildingsToCoordinates.keys());
-      setBuildings(buildingNames);
+    if (getbuildingstoCoordinates) {
+      // Define async function to get keys
+      const getKeys = async () => {
+        const data = await getbuildingstoCoordinates(); // Await the result of the async function
+        return Array.from(data.keys()); // Call .keys() on the Map and convert to array
+      };
+  
+      // Call the async function and set the building names
+      getKeys()
+        .then((buildingNames) => {
+          setBuildings(buildingNames); // Set the state with the building names (keys)
+        })
+        .catch((error) => {
+          console.error('Error fetching building names:', error);
+        });
     } else {
-      console.error("buildingsToCoordinates is undefined");
+      console.error('getbuildingstoCoordinates is undefined');
     }
   }, []);
 
@@ -23,16 +35,18 @@ export default function CreateFountain() {
     event.preventDefault();
 
     // Retrieve form data for fountain creation
-    const building = (event.currentTarget.elements[0] as HTMLSelectElement).value;
+    const buildingName = (event.currentTarget.elements[0] as HTMLSelectElement).value;
     const description = (event.currentTarget.elements[1] as HTMLInputElement).value;
     const bottleNum = parseInt((event.currentTarget.elements[2] as HTMLInputElement).value);
 
     // Construct fountain data object
-    const fountain = { building, description, bottleNum };
+    const fountain = { buildingName, description, bottleNum };
+
+    console.log(fountain)
 
     try {
       // Send POST request to create fountain
-      const res = await fetch('/api/webapp/create', {
+      const res = await fetch('/api/webapp/fountains', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,12 +80,12 @@ export default function CreateFountain() {
     event.preventDefault();
 
     const name = (event.currentTarget.elements[0] as HTMLInputElement).value;
-    const location = (event.currentTarget.elements[1] as HTMLInputElement).value;
-
-    const building = { name, location };
+    const longitude = (event.currentTarget.elements[1] as HTMLInputElement).value;
+    const latitude = (event.currentTarget.elements[2] as HTMLInputElement).value;
+    const building = { name, longitude, latitude };
 
     try {
-      const res = await fetch('/api/webapp/create-building', {
+      const res = await fetch('/api/webapp/buildings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,8 +141,11 @@ export default function CreateFountain() {
         <label htmlFor="bname" className="create-label">Enter the building name</label>
         <input id="bname" type="text" placeholder="Building Name" className="create-input" required />
 
-        <label htmlFor="blocation" className="create-label">Enter the building&apos;s general location</label>
-        <input id="blocation" type="text" placeholder="Building Location" className="create-input" required />
+        <label htmlFor="blocation" className="create-label">Enter the building&apos;s Latitude</label>
+        <input id="blocation" type="text" placeholder="Latitude" className="create-input" required />
+
+        <label htmlFor="blocation" className="create-label">Enter the building&apos;s Longitude</label>
+        <input id="blocation" type="text" placeholder="Longitude" className="create-input" required />
 
         <div className="buttonbox">
           <button type="submit" className="create-submit-btn">Create Building</button>

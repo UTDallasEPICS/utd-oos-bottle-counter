@@ -1,17 +1,15 @@
 import prisma from '@/app/prismaFountains';
+import { Decimal } from '@prisma/client/runtime/library';
 import { NextResponse } from 'next/server';
 
 const getBuildingsList = async () => {
-    const res = await fetch('/api/webapp/readBuildings', {
+    const res = await fetch('/api/webapp/buildings', {
         method: 'GET',
     })
 
     const data = await res.json()
 
-    let buildingsList = data.map(({ building } : {building:string}) => building )
-
-    // console.log(data)
-    // console.log(buildingsList)
+    let buildingsList = data.map((building: any) => building.buildingName )
 
     const buildingsSet = new Set(buildingsList)
 
@@ -21,7 +19,34 @@ const getBuildingsList = async () => {
 }
 
 const getBuildingBottleCount = async () => {
-    
+}
+
+
+const getbuildingstoCoordinates = async() => {
+    const res = await fetch('/api/webapp/buildings', {
+        method: 'GET',
+    }) 
+
+    const data = await res.json();
+    let buildingNameList = data.map(({ buildingName } : {buildingName:string}) => buildingName );
+    let longitudeList = data.map(({ buildingLongitude } : {buildingLongitude:Decimal}) => buildingLongitude );
+    let latitudeList = data.map(({ buildingLatitude } : {buildingLatitude:Decimal}) => buildingLatitude );
+
+    const nameSet = new Set(buildingNameList);
+    const longSet = new Set(longitudeList);
+    const latSet = new Set(latitudeList);
+
+    buildingNameList = Array.from(nameSet);
+    longitudeList = Array.from(longSet);
+    latitudeList = Array.from(latSet);
+
+    const buildingsToCoordinates = new Map<string, [number, number]>();
+    for (let i = 0; i < buildingNameList.length; i++) {
+        buildingsToCoordinates.set(buildingNameList[i], [longitudeList[i], latitudeList[i]]);
+    }
+
+    return buildingsToCoordinates;
+
 }
 
 const buildingsToCoordinates = new Map<string, [number, number]>();
@@ -65,8 +90,10 @@ buildingsToCoordinates.forEach((coordinate, building) => {
     )
 })
 
+
 export {
     getBuildingsList, 
+    getbuildingstoCoordinates,
     buildingsToCoordinates,
     points
 };
