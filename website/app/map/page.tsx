@@ -3,176 +3,62 @@ import './map-styles.css';
 import maplibregl, { MapMouseEvent } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect , useState } from 'react';
-import { buildingsToCoordinates, points } from '../utilities';
+import { buildingsToCoordinates, points, Building } from '../utilities';
 
 /* put description here */
 
 export default function MapPage() {
     const [fountainData, setFountainData] = useState<any[]>([])
     const [buildingData, setBuildingData] = useState<any>([])
+    const [map, setMap] = useState<maplibregl.Map>()
 
-    useEffect(() => {
-        const map = new maplibregl.Map({
-            container: 'map', // container id
-            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${process.env.maptilerApiKey}`, // style URL
-            center: [-96.7518, 32.9858], // starting position [lng, lat]
-            zoom: 15 // starting zoom
-        });
 
-        //const coordinates = document.getElementById('coordinates');
-        //const descriptionBox = document.getElementById('description');
+    function createBuildingTable(buildingName : string) {
         const buildingInfo = document.getElementById('buildingInfo');
         const tableDiv = document.getElementById('tableDiv');
         const buildingTable = document.getElementById('buildingTable');
-        
-        const canvas = map.getCanvasContainer();
 
-        // console.log("points is " + points)
-        const geojson: GeoJSON.FeatureCollection<GeoJSON.Point> = {
-            'type': 'FeatureCollection',
-            'features': points
-        };
-        
-
-        function onMove(e: MapMouseEvent) {
-            const coords = e.lngLat;
-
-            canvas.style.cursor = 'pointer';
-            
+        if (buildingInfo) {
+            //descriptionBox.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description;
+            buildingInfo.innerHTML = buildingName + " Filling Stations";
+            buildingInfo.style.visibility = 'visible';
         }
 
-        function onUp(e: MapMouseEvent) {
-            const coords = e.lngLat;
+        if (tableDiv) {
+            if (buildingTable) {
+                // Filter for building subtable depending on selected point's building name
+                // Credit goes to: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
 
-            /* if (coordinates) {
-                // Print the coordinates of where the point had
-                // finished being dragged to on the map. Debug.
-
-                coordinates.style.display = 'block';
-                coordinates.innerHTML =
-                    `Longitude: ${coords.lng}<br />Latitude: ${coords.lat}`; 
-            } */
-
-            canvas.style.cursor = '';
-
-
-            // Unbind mouse/touch events
-            map.off('mousemove', onMove);
-            map.off('touchmove', onMove);
-        }
-
-        map.on('load', () => {
-            
-            map.addSource('buildings', {
-                'type': 'geojson',
-                'data': geojson
-            });
-
-            map.addLayer({
-                'id': 'points',
-                'type': 'circle',
-                'source': 'buildings',
-                'paint': {
-                    'circle-radius': 10,
-                    'circle-color': '#3887be'
-                }
-            });
-
-            map.addLayer({
-                'id': 'poi-labels',
-                'type': 'symbol',
-                'source': 'buildings',
-                'layout': {
-                    'text-field': ['get', 'description'],
-                    'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-                    'text-radial-offset': 0.5,
-                    'text-justify': 'auto',
-                    'icon-image': ['concat', ['get', 'icon'], '_15']
-                }
-            });
-
-            // When the cursor enters a feature in the point layer, prepare for dragging.
-            map.on('mouseenter', 'points', () => {
-                // map.setPaintProperty('points', 'circle-color', '#3bb2d0');
-                canvas.style.cursor = 'pointer';
-            });
-
-            map.on('mouseleave', 'points', () => {
-                // map.setPaintProperty('points', 'circle-color', '#3887be');
-                // canvas.style.cursor = '';
-            });
-
-            map.on('click', 'points', (e) => {
-                console.log("hello, this is ");
-                console.log(e);
-                if (buildingInfo) {
-                    //descriptionBox.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description;
-                    buildingInfo.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description + " Filling Stations";
-                    buildingInfo.style.visibility = 'visible';
+                var tableLocat, tableFilter, tr, td, i, txtValue;
+                tableFilter = ""
+                tableLocat = buildingName
+                if (tableLocat) {
+                    tableFilter = tableLocat.toUpperCase();
                 }
 
-                if (tableDiv) {
-                    if (buildingTable) {
-                        // Filter for building subtable depending on selected point's building name
-                        // Credit goes to: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
+                tr = buildingTable.getElementsByTagName("tr");
 
-                        var tableLocat, tableFilter, tr, td, i, txtValue;
-                        tableLocat = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description
-                        if (tableLocat) {
-                            tableFilter = tableLocat.toUpperCase();
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(tableFilter) > -1) {
+                            tr[i].style.display = "";
                         }
-
-                        tr = buildingTable.getElementsByTagName("tr");
-
-                        for (i = 0; i < tr.length; i++) {
-                            td = tr[i].getElementsByTagName("td")[1];
-
-                            if (td) {
-                                txtValue = td.textContent || td.innerText;
-                                if (txtValue.toUpperCase().indexOf(tableFilter) > -1) {
-                                    tr[i].style.display = "";
-                                }
-                                else {
-                                    tr[i].style.display = "none";
-                                }
-                            }
-
+                        else {
+                            tr[i].style.display = "none";
                         }
                     }
 
-                    tableDiv.style.visibility = 'visible';
-
                 }
+            }
 
-                
-            })  
+            tableDiv.style.visibility = 'visible';
 
-            map.on('mousedown', 'points', (e) => {
-                // Prevent the default map drag behavior.
-                e.preventDefault();
-
-                canvas.style.cursor = 'grab';
-
-                map.on('mousemove', onMove);
-                map.once('mouseup', onUp);
-            });
-
-            map.on('touchstart', 'points', (e) => {
-                if (e.points.length !== 1) return;
-
-                // Prevent the default map drag behavior.
-                e.preventDefault();
-
-                map.on('touchmove', onMove);
-                map.once('touchend', onUp);
-            });
-        });
-
-        return () => {
-            map.remove();
         }
-    }, []);
-
+    }
+    
     useEffect(() => {
 
         const getFountainData = async () => {
@@ -194,7 +80,7 @@ export default function MapPage() {
             // }); 
 
             // setBuildingData(map);
-            console.log(data.res.sort())
+            console.log("this should be the building data", data.res.sort())
             setBuildingData(data.res.sort());
             
         }
@@ -230,6 +116,216 @@ export default function MapPage() {
         
     }, [])
 
+    useEffect(() => {
+        console.log("does map exist?", (map ? 
+            "yes" : "no"
+        ) )
+
+        const bottleMap = new maplibregl.Map({
+            container: 'map', // container id
+            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${process.env.maptilerApiKey}`, // style URL
+            center: [-96.7518, 32.9858], // starting position [lng, lat]
+            zoom: 15 // starting zoom
+        });
+
+        setMap(bottleMap)
+
+        return () => {
+            bottleMap.remove();
+        }
+    }, []);
+
+
+    useEffect(() => {
+        if(map) {
+            const buildingInfo = document.getElementById('buildingInfo');
+            const tableDiv = document.getElementById('tableDiv');
+            const buildingTable = document.getElementById('buildingTable');
+            
+            const canvas = map.getCanvasContainer();
+            let geojson: GeoJSON.FeatureCollection<GeoJSON.Point>;
+
+            if(buildingData.length > 0) {
+                let pts: GeoJSON.Feature<GeoJSON.Point, GeoJSON.GeoJsonProperties>[] = []
+
+                console.log("buildingData", buildingData)
+    
+                buildingData.forEach((building : Building) => {
+                    pts.push(
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [building.buildingLongitude, building.buildingLatitude] as GeoJSON.Position
+                            },
+                            'properties': {
+                                'description': building.buildingName
+                            }
+                        }
+                    )
+                })
+    
+                console.log("pts", pts)
+        
+                // console.log("points is " + points)
+                geojson = {
+                    'type': 'FeatureCollection',
+                    'features': pts
+                };
+            }
+            
+            
+    
+            const onMove = (e: MapMouseEvent) => {
+                const coords = e.lngLat;
+    
+                canvas.style.cursor = 'pointer';
+                
+            }
+    
+            const onUp = (e: MapMouseEvent) => {
+                const coords = e.lngLat;
+    
+                /* if (coordinates) {
+                    // Print the coordinates of where the point had
+                    // finished being dragged to on the map. Debug.
+    
+                    coordinates.style.display = 'block';
+                    coordinates.innerHTML =
+                        `Longitude: ${coords.lng}<br />Latitude: ${coords.lat}`; 
+                } */
+    
+                canvas.style.cursor = '';
+    
+    
+                // Unbind mouse/touch events
+                map.off('mousemove', onMove);
+                map.off('touchmove', onMove);
+            }
+    
+            map.on('load', () => {
+                if(buildingData.length > 0) {
+                    map.addSource('buildings', {
+                        'type': 'geojson',
+                        'data': geojson
+                    });
+                    
+                    console.log(map.getSource("buildings"))
+    
+                    map.addLayer({
+                        'id': 'points',
+                        'type': 'circle',
+                        'source': 'buildings',
+                        'paint': {
+                            'circle-radius': 10,
+                            'circle-color': '#3887be'
+                        }
+                    });
+        
+                    map.addLayer({
+                        'id': 'poi-labels',
+                        'type': 'symbol',
+                        'source': 'buildings',
+                        'layout': {
+                            'text-field': ['get', 'description'],
+                            'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+                            'text-radial-offset': 0.5,
+                            'text-justify': 'auto',
+                            'icon-image': ['concat', ['get', 'icon'], '_15']
+                        }
+                    });
+    
+                    console.log(map.getLayer("points"))
+        
+                    // When the cursor enters a feature in the point layer, prepare for dragging.
+                    map.on('mouseenter', 'points', () => {
+                        // map.setPaintProperty('points', 'circle-color', '#3bb2d0');
+                        canvas.style.cursor = 'pointer';
+                    });
+        
+                    map.on('mouseleave', 'points', () => {
+                        // map.setPaintProperty('points', 'circle-color', '#3887be');
+                        // canvas.style.cursor = '';
+                    });
+        
+                    map.on('click', 'points', (e) => {
+                        console.log("hello, this is ");
+                        console.log(e);
+                        // if (buildingInfo) {
+                        //     //descriptionBox.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description;
+                        //     buildingInfo.innerHTML = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description + " Filling Stations";
+                        //     buildingInfo.style.visibility = 'visible';
+                        // }
+        
+                        // if (tableDiv) {
+                        //     if (buildingTable) {
+                        //         // Filter for building subtable depending on selected point's building name
+                        //         // Credit goes to: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
+        
+                        //         var tableLocat, tableFilter, tr, td, i, txtValue;
+                        //         tableLocat = (e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description
+                        //         console.log("tableLocat is", tableLocat)
+                        //         if (tableLocat) {
+                        //             tableFilter = tableLocat.toUpperCase();
+                        //         }
+        
+                        //         tr = buildingTable.getElementsByTagName("tr");
+        
+                        //         for (i = 0; i < tr.length; i++) {
+                        //             td = tr[i].getElementsByTagName("td")[1];
+        
+                        //             if (td) {
+                        //                 txtValue = td.textContent || td.innerText;
+                        //                 if (txtValue.toUpperCase().indexOf(tableFilter) > -1) {
+                        //                     tr[i].style.display = "";
+                        //                 }
+                        //                 else {
+                        //                     tr[i].style.display = "none";
+                        //                 }
+                        //             }
+        
+                        //         }
+                        //     }
+        
+                        //     tableDiv.style.visibility = 'visible';
+        
+                        // }
+                        createBuildingTable((e.features as maplibregl.MapGeoJSONFeature[])[0].properties.description)
+        
+                        
+                    })  
+        
+                    map.on('mousedown', 'points', (e) => {
+                        // Prevent the default map drag behavior.
+                        e.preventDefault();
+        
+                        canvas.style.cursor = 'grab';
+        
+                        map.on('mousemove', onMove);
+                        map.once('mouseup', onUp);
+                    });
+        
+                    map.on('touchstart', 'points', (e) => {
+                        if (e.points.length !== 1) return;
+        
+                        // Prevent the default map drag behavior.
+                        e.preventDefault();
+        
+                        map.on('touchmove', onMove);
+                        map.once('touchend', onUp);
+                    });
+                }
+                
+                console.log(map);
+            });
+        }
+        //const coordinates = document.getElementById('coordinates');
+        //const descriptionBox = document.getElementById('description');
+        
+    }, [buildingData])
+
+    
+
     // console.log("fountainData: " + fountainData)
     const getBuildingBottleNum = async (building: string) => {
         const res = await fetch(`/api/webapp/buildings?buildingName=${building}`, {
@@ -259,10 +355,7 @@ export default function MapPage() {
 
             <p>&nbsp;</p>
             <div className = "ml-auto mr-auto max-w-[1200px]">
-                <p className = "text-center text-black"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p className = "text-center text-black">Throughout the main campus, there are over 40 water bottle refilling stations located at UT Dallas. These stations use an sensor to refill your bottles with clean, chilled water. These stations provide opportunity for students, staff, and faculty to refill their water bottles while preventing the addition of another plastic bottle into the waste stream. The ticker number located on the top of the stations identify the total number of bottles filled by utilizing the station.</p>
                 <p>&nbsp;</p>
             </div>
 
@@ -299,7 +392,7 @@ export default function MapPage() {
                                         // ))
                                         buildingData.map((building: any) => {
                                             return (
-                                                <tr key={building.buildingId} className='w-full'>
+                                                <tr key={building.buildingId} className='w-full' onClick={() => createBuildingTable(building.buildingName)}>
                                                     <td>{building.buildingBottleCount}</td>
                                                     <td> <strong>{building.buildingName}</strong></td>
                                                 </tr>
