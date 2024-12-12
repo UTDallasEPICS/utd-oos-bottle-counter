@@ -7,7 +7,10 @@ The main page.tsx file actually contains the code for calculating the total numb
 export default function TotalCounter(props:any) {
   return (<>
   <div className="total-counter-box">
-    <p className="total-counter">Total Number of Water Bottles Saved: {props.counter}</p>
+    <div className="total-counter">
+      <p className="total-counter">Total Number of Water Bottles Saved:</p>
+      <h1 style={{fontSize: "4em"}}>{props.counter.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h1>
+    </div>
   </div>
   </>);
 }
