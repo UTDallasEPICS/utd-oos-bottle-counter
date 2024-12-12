@@ -13,6 +13,7 @@ cd website
 npm i
 ```
 Change the .env.example to just .env
+Afterwards, add in your MapTiler API key into the .env file.
 ## Usage
 
 ```bash
