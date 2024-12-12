@@ -50,8 +50,11 @@ export async function DELETE(request: Request, {params}: {params: Promise<{id:st
                 buildingId: parseInt(id)
             }
         });
-    } catch {
-      res = "ID_NOT_FOUND_ERROR";
+    } catch(err) {
+      res = {
+        error: err,
+        res:"ID_NOT_FOUND_ERROR"
+      }
     }
     return NextResponse.json({res});
 }
