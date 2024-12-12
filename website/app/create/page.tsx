@@ -80,8 +80,8 @@ export default function CreateFountain() {
     event.preventDefault();
 
     const name = (event.currentTarget.elements[0] as HTMLInputElement).value;
-    const longitude = (event.currentTarget.elements[1] as HTMLInputElement).value;
-    const latitude = (event.currentTarget.elements[2] as HTMLInputElement).value;
+    const latitude = (event.currentTarget.elements[1] as HTMLInputElement).value;
+    const longitude = (event.currentTarget.elements[2] as HTMLInputElement).value;
     const building = { name, longitude, latitude };
 
     try {
