@@ -90,10 +90,19 @@ buildingsToCoordinates.forEach((coordinate, building) => {
     )
 })
 
+interface Building {
+    buildingId: number,
+    buildingName: string,
+    buildingLatitude: number,
+    buildingLongitude: number,
+    buildingBottleCount: number
+}
+
 
 export {
     getBuildingsList, 
     getbuildingstoCoordinates,
     buildingsToCoordinates,
-    points
+    points,
 };
+export type {Building as Building};
