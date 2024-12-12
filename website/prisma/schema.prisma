@@ -13,7 +13,7 @@ datasource db {
 model Fountain {
   id    Int     @id @default(autoincrement())
   buildingId Int
-  building Building @relation(fields: [buildingId], references: [buildingId])
+  building Building @relation(fields: [buildingId], references: [buildingId], onDelete: Cascade)
   description String
   bottleNum  Int
 }
